@@ -19,6 +19,7 @@
   position: absolute;
   inset: 0;
   background: rgba(8, 17, 37, 0.85);
+  z-index: 1;
 }
 
 .banner-content {

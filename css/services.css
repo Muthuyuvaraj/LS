@@ -28,12 +28,14 @@
   position: absolute;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
 }
 
 .banner-content {
   color: #fff;
   position: relative;
   text-align: center;
+  z-index: 2;
 }
 
 .banner-content h1 {
@@ -46,6 +48,7 @@
 
 .banner-content p {
   font-size: 16px;
+  color: #fff;
 }
 
 .banner-content p a {
