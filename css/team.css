@@ -1,0 +1,214 @@
+/* =============================================
+   TEAM PAGE STYLES
+   ============================================= */
+
+/* =============================================
+   TEAM HERO SECTION
+   ============================================= */
+.team-hero {
+  background: linear-gradient(135deg, var(--dark) 0%, #0d2d52 100%);
+  padding: 80px 20px 60px;
+  text-align: center;
+  color: white;
+}
+
+.team-hero h1 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: 15px;
+  color: var(--brand);
+}
+
+.team-hero p {
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+/* =============================================
+   TEAM SECTION
+   ============================================= */
+.team-section {
+  padding: 80px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.team-intro {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.team-intro h2 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 15px;
+}
+
+.team-intro p {
+  font-size: 1.1rem;
+  color: #666;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.team-group-photo {
+  max-width: 1000px;
+  margin: 50px auto;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.team-group-photo img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.team-description {
+  max-width: 900px;
+  margin: 60px auto 0;
+  text-align: center;
+}
+
+.team-description h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 25px;
+}
+
+.team-description p {
+  font-size: 1.05rem;
+  color: #555;
+  line-height: 1.8;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+/* =============================================
+   TEAM STATS
+   ============================================= */
+.team-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  margin-top: 50px;
+  padding: 40px 0;
+  border-top: 2px solid #f0f0f0;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-item h4 {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--brand);
+  margin-bottom: 10px;
+}
+
+.stat-item p {
+  font-size: 1rem;
+  color: #666;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* =============================================
+   RESPONSIVE - Tablet (768px and below)
+   ============================================= */
+@media (max-width: 768px) {
+  .nav-left img {
+    width: 70px;
+    height: auto;
+  }
+
+  .team-hero h1 {
+    font-size: 2rem;
+    font-weight: 800;
+  }
+
+  .team-hero p {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .team-intro h2 {
+    font-size: 2rem;
+    font-weight: 800;
+  }
+
+  .team-description h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .team-description p {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .team-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    padding: 30px 0;
+  }
+
+  .stat-item h4 {
+    font-size: 2rem;
+    font-weight: 800;
+  }
+}
+
+/* =============================================
+   RESPONSIVE - Mobile (480px and below)
+   ============================================= */
+@media (max-width: 480px) {
+  .nav-left img {
+    width: 60px;
+    height: auto;
+  }
+
+  .team-hero h1 {
+    font-size: 1.6rem;
+    font-weight: 800;
+  }
+
+  .team-hero p {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .team-intro h2 {
+    font-size: 1.6rem;
+    font-weight: 800;
+  }
+
+  .team-description h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .team-description p {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .team-stats {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px 0;
+  }
+
+  .stat-item h4 {
+    font-size: 1.6rem;
+    font-weight: 800;
+  }
+}

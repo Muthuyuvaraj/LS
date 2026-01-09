@@ -1,0 +1,454 @@
+/* =============================================
+   ABOUT PAGE STYLES - Restructured & Organized
+   ============================================= */
+
+/* =============================================
+   PAGE BANNER / HERO
+   ============================================= */
+.page-banner {
+  background: url("/assets/icons/abbg.jpg") center/cover no-repeat;
+  min-height: 260px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.page-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 17, 37, 0.85);
+}
+
+.banner-content {
+  position: relative;
+  text-align: center;
+  color: #ffffff;
+  z-index: 2;
+  padding: 20px;
+}
+
+.banner-content h1 {
+  font-size: 38px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.banner-content p {
+  font-size: 18px;
+}
+
+.banner-content a {
+  color: #ffffff;
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+.banner-content span {
+  color: #ff7b00;
+  font-weight: 600;
+}
+
+/* =============================================
+   MAIN CONTAINER & LAYOUT
+   ============================================= */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 36px 20px;
+}
+
+/* =============================================
+   ABOUT SECTION
+   ============================================= */
+.about-section {
+  width: 100%;
+  max-width: 1300px;
+  margin: 50px auto;
+  display: flex;
+  align-items: center;
+  padding: 30px;
+  gap: 40px;
+}
+
+.about-left {
+  flex: 1;
+}
+
+.about-right {
+  flex: 1;
+}
+
+.about-right img {
+  width: 100%;
+  border-radius: 6px;
+}
+
+.about-sub {
+  color: #d59126;
+  font-size: 14px;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.about-title {
+  font-size: 48px;
+  font-weight: 800;
+  color: #0c1a36;
+  margin-bottom: 40px;
+  line-height: 1.3;
+}
+
+.about-text {
+  max-width: 500px;
+}
+
+.about-text p {
+  color: #444;
+  line-height: 1.6;
+}
+
+.eyebrow {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+.highlight {
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 14px;
+  text-align: justify;
+  font-size: 17px;
+}
+
+.description {
+  color: #555;
+  line-height: 1.7;
+  text-align: justify;
+  margin-bottom: 18px;
+}
+
+.about-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+}
+
+.experience-box {
+  background: #ec7f1b;
+  color: #fff;
+  writing-mode: vertical-rl;
+  padding: 25px 10px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  font-size: 14px;
+}
+
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  font-weight: 600;
+  color: #0c1a36;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* =============================================
+   WORK PROCESS SECTION
+   ============================================= */
+.work-process {
+  text-align: center;
+  padding: 80px 0;
+  background: #f7f7f7;
+}
+
+.wp-sub {
+  color: #d59126;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+.wp-title {
+  font-size: 42px;
+  color: #0c1a36;
+  font-weight: 900;
+  margin-bottom: 60px;
+}
+
+.wp-steps {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.wp-card {
+  position: relative;
+  width: 290px;
+}
+
+.wp-bg-num {
+  font-size: 110px;
+  font-weight: 900;
+  color: #eaeaea;
+  position: absolute;
+  top: -20px;
+  left: -15px;
+  z-index: 0;
+}
+
+.wp-card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 2;
+}
+
+.wp-num-box {
+  background: #ec7f1b;
+  padding: 5px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.wp-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0c1a36;
+  margin: 0;
+}
+
+.wp-card p {
+  margin-top: 10px;
+  font-size: 15px;
+  color: #6b6b6b;
+  line-height: 1.6;
+  position: relative;
+  z-index: 2;
+}
+
+/* =============================================
+   STATS BAR SECTION
+   ============================================= */
+.stats-bar {
+  background: #ec7f1b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 4%;
+  gap: 20px;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin-left: 170px;
+  color: #fff;
+  border-radius: 4px;
+  margin-left: 20px;
+}
+
+.stat-item {
+  text-align: center;
+  min-width: 140px;
+  color: #ffffff;
+}
+
+.stat-item h2 {
+  font-size: 48px;
+  font-weight: 900;
+  margin: 10px 0 4px;
+  line-height: 1;
+  color: #ffffff;
+}
+
+.stat-item p {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  color: #ffffff;
+}
+
+.stat-icon {
+  width: 50px;
+  height: 50px;
+  display: block;
+  margin: 0 auto;
+  stroke: #fff;
+  stroke-width: 1.5;
+  fill: none;
+}
+
+/* =============================================
+   RESPONSIVE - Large Desktop (1200px+)
+   ============================================= */
+@media (max-width: 1200px) {
+  .about-title {
+    font-size: 34px;
+  }
+
+  .stats-bar {
+    margin-left: 0 !important;
+    justify-content: center;
+    padding: 30px 3%;
+  }
+
+  .stat-item h2 {
+    font-size: 36px;
+  }
+
+  .stat-icon {
+    width: 42px;
+    height: 42px;
+  }
+}
+
+/* =============================================
+   RESPONSIVE - Tablet (992px and below)
+   ============================================= */
+@media (max-width: 992px) {
+  .about-section {
+    flex-direction: column;
+    padding: 20px;
+    gap: 30px;
+  }
+
+  .about-left,
+  .about-right {
+    flex: 100%;
+  }
+
+  .about-title {
+    font-size: 32px;
+  }
+
+  .about-box {
+    flex-direction: column;
+  }
+
+  .experience-box {
+    writing-mode: horizontal-tb;
+    padding: 10px 15px;
+  }
+
+  .stats-bar {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 25px;
+  }
+
+  .wp-steps {
+    gap: 40px;
+  }
+}
+
+/* =============================================
+   RESPONSIVE - Mobile (768px and below)
+   ============================================= */
+@media (max-width: 768px) {
+  .page-banner {
+    height: 200px;
+  }
+
+  .banner-content h1 {
+    font-size: 28px;
+    font-weight: 800;
+  }
+
+  .banner-content p {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .about-section {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .about-title {
+    font-size: 26px;
+  }
+
+  .about-box {
+    flex-direction: column;
+  }
+
+  .stats-bar {
+    flex-wrap: wrap;
+    text-align: center;
+    gap: 25px;
+  }
+
+  .stat-item h2 {
+    font-size: 34px;
+  }
+
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .wp-steps {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .wp-title {
+    font-size: 32px;
+  }
+}
+
+/* =============================================
+   RESPONSIVE - Small Mobile (480px and below)
+   ============================================= */
+@media (max-width: 480px) {
+  .page-banner {
+    height: 160px;
+  }
+
+  .banner-content h1 {
+    font-size: 22px;
+    font-weight: 800;
+  }
+
+  .banner-content p {
+    font-size: 0.85rem;
+    font-weight: 400;
+  }
+
+  .about-title {
+    font-size: 22px;
+  }
+
+  .about-section {
+    padding: 10px;
+  }
+
+  .stats-bar {
+    padding: 20px;
+    margin-left: 0 !important;
+  }
+
+  .stat-item h2 {
+    font-size: 28px;
+  }
+
+  .stat-icon {
+    width: 35px;
+    height: 35px;
+  }
+
+  .wp-title {
+    font-size: 26px;
+  }
+}
