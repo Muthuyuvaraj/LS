@@ -1,0 +1,35 @@
+---
+import { DISTRICTS } from '../data/districts';
+const points = DISTRICTS.map((d) => ({ n: d.name, s: d.slug, lat: d.lat, lng: d.lng }));
+---
+<div class="tn-map" id="tn-map" role="region" aria-label="Map of Tamil Nadu districts we serve">
+  <div class="tn-map__placeholder">Loading map of Tamil Nadu…</div>
+</div>
+<script is:inline define:vars={{ points }}>
+  (function () {
+    var el = document.getElementById('tn-map');
+    if (!el) return;
+    function load() {
+      var css = document.createElement('link');
+      css.rel = 'stylesheet'; css.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+      document.head.appendChild(css);
+      var js = document.createElement('script');
+      js.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+      js.onload = function () {
+        el.innerHTML = '';
+        var map = L.map(el, { scrollWheelZoom: false }).setView([10.9, 78.6], 7);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
+        points.forEach(function (p) {
+          L.circleMarker([p.lat, p.lng], { radius: 7, color: '#071c34', weight: 2, fillColor: '#f9a11b', fillOpacity: 0.95 })
+            .addTo(map).bindPopup('<strong>' + p.n + '</strong><br><a href="/locations/' + p.s + '/">Land survey in ' + p.n + ' →</a>');
+        });
+        L.marker([10.9486, 79.3527]).addTo(map).bindPopup('<strong>Cartospatial Technologies</strong><br>Head office – Darasuram, Kumbakonam');
+      };
+      document.body.appendChild(js);
+    }
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (e) { if (e[0].isIntersecting) { io.disconnect(); load(); } }, { rootMargin: '200px' });
+      io.observe(el);
+    } else load();
+  })();
+</script>

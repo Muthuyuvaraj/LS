@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import AreaChecker from '../components/AreaChecker.astro';
+import homeHtml from '../content/legacy/Home.html?raw';
+import '../styles/home.css';
+import { DISTRICTS, CITY_SLUGS } from '../data/districts';
+import { GENERAL_FAQS } from '../data/faqs';
+import { faqPage } from '../data/schema';
+
+const faqs = GENERAL_FAQS.slice(0, 6);
+const cities = DISTRICTS.filter((d) => CITY_SLUGS.includes(d.slug));
+---
+<BaseLayout
+  title="Land Survey Company in Tamil Nadu | DGPS, Drone & LiDAR"
+  description="Cartospatial Technologies – trusted land surveyors in all 38 districts of Tamil Nadu. DGPS, Total Station, Drone, LiDAR, bathymetric & GIS surveys with centimetre accuracy. Free quote on WhatsApp."
+  keywords="land survey Tamil Nadu, land surveyor near me, DGPS survey, drone survey, total station survey, LiDAR survey, patta land survey, boundary survey, Kumbakonam surveyor"
+  alternate="/ta/"
+  schema={[faqPage(faqs)]}
+  bodyClass="home-page"
+>
+  <Fragment slot="head">
+    <link rel="preload" as="image" href="/img/pbg-1.webp" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11.1.14/swiper-bundle.min.css" />
+  </Fragment>
+
+  <main>
+    <Fragment set:html={homeHtml} />
+
+    <section class="section section--dark" aria-labelledby="stats-title">
+      <div class="section-inner">
+        <h2 class="sr-only" id="stats-title">Cartospatial in numbers</h2>
+        <div class="stats-strip">
+          <div><strong>38</strong><span>Districts served across Tamil Nadu</span></div>
+          <div><strong>50+</strong><span>Projects completed</span></div>
+          <div><strong>8</strong><span>Survey & mapping services</span></div>
+          <div><strong>2 hrs</strong><span>Typical quote response time</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="areas-title">
+      <div class="section-inner">
+        <p class="eyebrow-label">Service Areas</p>
+        <h2 class="section-heading" id="areas-title">Land Surveyors in Every District of Tamil Nadu</h2>
+        <p class="section-lead">From our base in Kumbakonam we send survey teams across the Cauvery delta, Chennai, the Kongu belt and South Tamil Nadu. Check your district:</p>
+        <AreaChecker />
+        <ul class="chip-list" style="margin-top:22px">
+          {cities.map((d) => <li><a href={`/locations/${d.slug}/`}>Land survey in {d.name}</a></li>)}
+          <li><a href="/locations/">View all 38 districts →</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section section--alt" aria-labelledby="est-title">
+      <div class="section-inner split">
+        <div>
+          <p class="eyebrow-label">Plan your budget</p>
+          <h2 class="section-heading" id="est-title">Survey Cost &amp; Time Estimator</h2>
+          <p class="section-lead">Enter your land area in acres, cents, grounds or sq.ft and the type of survey – see the field days, deliverables and turnaround instantly, then send it to us for an exact quote.</p>
+          <p style="margin-top:18px"><a class="btn-cta" href="/survey-cost-estimator/"><i class="fa-solid fa-calculator" aria-hidden="true"></i> Open the Estimator</a></p>
+        </div>
+        <div class="sticky-card">
+          <h3>Quick conversions</h3>
+          <p>1 acre = 100 cents = 43,560 sq.ft<br />1 cent = 435.6 sq.ft<br />1 ground = 2,400 sq.ft<br />1 hectare = 2.471 acres</p>
+        </div>
+      </div>
+    </section>
+
+    <Faq faqs={faqs} title="Land Survey Questions Our Clients Ask" />
+    <p style="text-align:center;margin:-30px 0 40px"><a href="/faq/" style="color:#f9a11b;font-weight:700">See all FAQs →</a></p>
+    <CtaBand />
+  </main>
+
+  <script is:inline src="https://cdn.jsdelivr.net/npm/swiper@11.1.14/swiper-bundle.min.js" defer></script>
+  <script is:inline defer src="/js/home-swiper.js"></script>
+</BaseLayout>

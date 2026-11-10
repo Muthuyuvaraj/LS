@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBand from '../components/CtaBand.astro';
+import html from '../content/legacy/project.html?raw';
+import '../styles/project.css';
+import { breadcrumb } from '../data/schema';
+import { readdirSync } from 'node:fs';
+
+// Real field photos from completed jobs (optimised by `npm run images`)
+const photos = readdirSync('public/img').filter((f) => /^(IMG|\d{8})/.test(f)).sort();
+---
+<BaseLayout
+  title="Projects | Land Survey, DGPS & LiDAR Work in Tamil Nadu"
+  description="See Cartospatial’s survey projects across Tamil Nadu – DGPS and Total Station land surveys, LiDAR mapping, drone surveys and CAD drafting with photos from the field."
+  schema={[breadcrumb([{ name: 'Home', path: '/' }, { name: 'Projects', path: '/projects/' }])]}
+>
+  <Fragment set:html={html} />
+
+  <section class="section section--alt" aria-labelledby="gallery-title">
+    <div class="section-inner">
+      <p class="eyebrow-label">From the field</p>
+      <h2 class="section-heading" id="gallery-title">Our Survey Teams at Work Across Tamil Nadu</h2>
+      <p class="section-lead" style="margin-bottom:22px">Real photos from our recent DGPS, Total Station and drone survey sites.</p>
+      <div class="gallery">
+        {photos.map((p, i) => (
+          <figure><img src={`/img/${p}`} alt={`Cartospatial land survey field work photo ${i + 1}`} loading="lazy" decoding="async" width="400" height="300" /></figure>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+  <script is:inline src="/js/project.js" defer></script>
+</BaseLayout>

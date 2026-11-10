@@ -1,0 +1,17 @@
+{
+  "name": "cartospatial-technologies",
+  "type": "module",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "images": "node scripts/optimize-images.mjs",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.4.7",
+    "sharp": "^0.35.5"
+  }
+}

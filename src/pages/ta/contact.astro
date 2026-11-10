@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE, waLink } from '../../data/site';
+import { breadcrumb } from '../../data/schema';
+---
+<BaseLayout
+  lang="ta"
+  alternate="/contact/"
+  title="தொடர்பு கொள்ள | Cartospatial Technologies – கும்பகோணம் நில அளவையாளர்"
+  description="நில அளவைக்கு +91 98435 00114 என்ற எண்ணில் அழைக்கவும் அல்லது WhatsApp செய்யவும். முகவரி: எண் 114, கம்மாளர் தெரு, தாராசுரம், கும்பகோணம் – 612702."
+  schema={[breadcrumb([{ name: 'முகப்பு', path: '/ta/' }, { name: 'தொடர்பு', path: '/ta/contact/' }])]}
+>
+  <section class="hero-band">
+    <h1>எங்களைத் தொடர்பு கொள்ளுங்கள்</h1>
+    <p>தமிழ்நாட்டின் எந்த மாவட்டத்திலும் நில அளவைக்கு – அழைக்கவும், WhatsApp செய்யவும் அல்லது படிவத்தை நிரப்பவும்.</p>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/ta/">முகப்பு</a> › <span aria-current="page">தொடர்பு</span></nav>
+  </section>
+  <main class="section">
+    <div class="section-inner split">
+      <div>
+        <div class="card-grid">
+          <a class="card" href={`tel:${SITE.phoneRaw}`}><i class="fa-solid fa-phone" aria-hidden="true"></i><h2 style="font-size:18px">அழைக்க</h2><p>{SITE.phone}</p></a>
+          <a class="card" href={waLink('வணக்கம் Cartospatial, எனக்கு நில அளவை பற்றி விவரம் வேண்டும்.')} target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i><h2 style="font-size:18px">WhatsApp</h2><p>உடனடி பதில்</p></a>
+          <a class="card" href={`mailto:${SITE.email}`}><i class="fa-regular fa-envelope" aria-hidden="true"></i><h2 style="font-size:18px">மின்னஞ்சல்</h2><p>{SITE.email}</p></a>
+          <div class="card"><i class="fa-solid fa-location-dot" aria-hidden="true"></i><h2 style="font-size:18px">முகவரி</h2><p>எண் 114, கம்மாளர் தெரு, தாராசுரம், கும்பகோணம் – 612702</p></div>
+        </div>
+        <iframe src={SITE.mapEmbed} title="Cartospatial அலுவலக வரைபடம்" width="100%" height="360" style="border:0;border-radius:12px;margin-top:20px" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <aside class="sticky-card">
+        <h2>விலைப்புள்ளி கோருங்கள்</h2>
+        <p>வேலை நேரம்: திங்கள் – சனி, காலை 9 – மாலை 6</p>
+        <button class="btn-cta js-open-request-form" type="button">படிவத்தை நிரப்ப</button>
+      </aside>
+    </div>
+  </main>
+</BaseLayout>

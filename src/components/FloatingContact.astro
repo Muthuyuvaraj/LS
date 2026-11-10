@@ -1,0 +1,14 @@
+---
+import { SITE, waLink } from '../data/site';
+interface Props { lang: 'en' | 'ta' }
+const ta = Astro.props.lang === 'ta';
+const msg = ta ? 'வணக்கம் Cartospatial, எனக்கு நில அளவை பற்றி விவரம் வேண்டும்.' : 'Hi Cartospatial, I need details about a land survey.';
+---
+<div class="float-contact" aria-label="Quick contact">
+  <a class="float-btn float-btn--wa" href={waLink(msg)} target="_blank" rel="noopener" data-track="whatsapp" aria-label="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i><span>WhatsApp</span>
+  </a>
+  <a class="float-btn float-btn--call" href={`tel:${SITE.phoneRaw}`} data-track="call" aria-label={`Call ${SITE.phone}`}>
+    <i class="fa-solid fa-phone" aria-hidden="true"></i><span>{ta ? 'அழைக்க' : 'Call'}</span>
+  </a>
+</div>

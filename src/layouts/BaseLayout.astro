@@ -1,0 +1,102 @@
+---
+import '../styles/base.css';
+import '../styles/header.css';
+import '../styles/footer.css';
+import '../styles/modal.css';
+import '../styles/site.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import RequestModal from '../components/RequestModal.astro';
+import FloatingContact from '../components/FloatingContact.astro';
+import { SITE, abs } from '../data/site';
+import { localBusiness } from '../data/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  keywords?: string;
+  image?: string;
+  lang?: 'en' | 'ta';
+  /** path of the same page in the other language, if one exists */
+  alternate?: string;
+  schema?: object[];
+  bodyClass?: string;
+  noindex?: boolean;
+}
+const { title, description, keywords, image = SITE.defaultOgImage, lang = 'en', alternate, schema = [], bodyClass, noindex = false } = Astro.props;
+const canonical = abs(Astro.url.pathname);
+const ogImage = abs(image);
+const GA_ID = import.meta.env.PUBLIC_GA_ID;
+const GSC = import.meta.env.PUBLIC_GSC_VERIFICATION;
+const enPath = lang === 'en' ? Astro.url.pathname : alternate;
+const taPath = lang === 'ta' ? Astro.url.pathname : alternate;
+---
+<!doctype html>
+<html lang={lang}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  {keywords && <meta name="keywords" content={keywords} />}
+  <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
+  <link rel="canonical" href={canonical} />
+  {enPath && taPath && (
+    <>
+      <link rel="alternate" hreflang="en-IN" href={abs(enPath)} />
+      <link rel="alternate" hreflang="ta-IN" href={abs(taPath)} />
+      <link rel="alternate" hreflang="x-default" href={abs(enPath)} />
+    </>
+  )}
+  <meta name="geo.region" content="IN-TN" />
+  <meta name="geo.placename" content="Tamil Nadu" />
+  <meta name="theme-color" content="#071c34" />
+  {GSC && <meta name="google-site-verification" content={GSC} />}
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content={SITE.name} />
+  <meta property="og:locale" content={lang === 'ta' ? 'ta_IN' : 'en_IN'} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={ogImage} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
+
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href={`https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700${lang === 'ta' ? '&family=Noto+Sans+Tamil:wght@400;500;600;700' : ''}&display=swap`} />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" /></noscript>
+  <slot name="head" />
+
+  <script type="application/ld+json" set:html={JSON.stringify(localBusiness())} />
+  {schema.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
+
+  {GA_ID && (
+    <>
+      <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
+      <script is:inline define:vars={{ GA_ID }}>
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { dataLayer.push(arguments); };
+        gtag('js', new Date());
+        gtag('config', GA_ID);
+      </script>
+    </>
+  )}
+</head>
+<body class={bodyClass}>
+  <Header lang={lang} alternate={alternate} />
+  <slot />
+  <RequestModal lang={lang} />
+  <Footer lang={lang} />
+  <FloatingContact lang={lang} />
+  <script>import '../scripts/site.ts';</script>
+</body>
+</html>

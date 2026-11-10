@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBand from '../components/CtaBand.astro';
+import html from '../content/legacy/about.html?raw';
+import '../styles/about.css';
+import { breadcrumb } from '../data/schema';
+---
+<BaseLayout
+  title="About Us | Land Survey Company in Kumbakonam, Tamil Nadu"
+  description="Cartospatial Technologies is a Kumbakonam-based land surveying and geospatial company serving all of Tamil Nadu with Total Station, DGPS, drone, LiDAR, bathymetric and GIS surveys."
+  schema={[breadcrumb([{ name: 'Home', path: '/' }, { name: 'About', path: '/about/' }])]}
+>
+  <Fragment set:html={html} />
+  <CtaBand />
+</BaseLayout>

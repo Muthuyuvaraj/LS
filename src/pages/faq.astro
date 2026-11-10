@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { GENERAL_FAQS } from '../data/faqs';
+import { SERVICES } from '../data/services';
+import { breadcrumb, faqPage } from '../data/schema';
+const svcFaqs = SERVICES.flatMap((s) => s.faqs.slice(0, 1));
+---
+<BaseLayout
+  title="Land Survey FAQs | Patta, FMB, DGPS, Drone Survey Questions | Cartospatial"
+  description="Answers to common land survey questions in Tamil Nadu – patta & FMB boundary checks, survey cost, documents needed, DGPS vs Total Station vs drone, timelines and formats."
+  schema={[breadcrumb([{ name: 'Home', path: '/' }, { name: 'FAQ', path: '/faq/' }]), faqPage([...GENERAL_FAQS, ...svcFaqs])]}
+>
+  <section class="hero-band">
+    <h1>Land Survey FAQs</h1>
+    <p>Everything landowners, builders and engineers in Tamil Nadu ask us before a survey.</p>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <span aria-current="page">FAQ</span></nav>
+  </section>
+  <main>
+    <Faq faqs={GENERAL_FAQS} title="General questions" eyebrow="Before you book" />
+    <Faq faqs={svcFaqs} title="About our survey methods" eyebrow="Services" alt />
+  </main>
+  <CtaBand />
+</BaseLayout>

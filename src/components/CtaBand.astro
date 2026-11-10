@@ -1,0 +1,23 @@
+---
+import { waLink } from '../data/site';
+interface Props { title?: string; text?: string; service?: string; lang?: 'en' | 'ta' }
+const ta = Astro.props.lang === 'ta';
+const {
+  title = ta ? 'உங்கள் நிலத்தை அளவிட வேண்டுமா?' : 'Need your land surveyed?',
+  text = ta ? 'இலவச விலைப்புள்ளிக்கு இன்றே தொடர்புகொள்ளுங்கள் – 2 வேலை நேரத்துக்குள் பதில்.' : 'Get a free quote today – we usually reply within 2 working hours.',
+  service,
+} = Astro.props;
+const msg = `Hi Cartospatial, I need a quote${service ? ` for ${service}` : ''}.`;
+---
+<section class="cta-band">
+  <div class="section-inner">
+    <div>
+      <h2>{title}</h2>
+      <p>{text}</p>
+    </div>
+    <div class="actions">
+      <button class="btn-cta js-open-request-form" type="button" data-service={service}><i class="fa-solid fa-file-pen" aria-hidden="true"></i> {ta ? 'விலைப்புள்ளி பெற' : 'Get a Free Quote'}</button>
+      <a class="btn-cta btn-wa" href={waLink(msg)} target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</a>
+    </div>
+  </div>
+</section>

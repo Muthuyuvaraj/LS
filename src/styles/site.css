@@ -1,0 +1,170 @@
+/* =========================
+   SITE.CSS – styles for the new shared components
+   (floating contact, FAQ, locations, estimator, CTA, breadcrumbs, gallery)
+   ========================= */
+
+a.contact-item { color: inherit; text-decoration: none; }
+.footer-phone { display: block; text-decoration: none; }
+.footer-container--wide { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.footer-contact a, .footer-links a { color: inherit; }
+.footer-mini-links { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 14px; list-style: none; padding: 0; font-size: 13px; }
+.footer-mini-links a { color: #d1d5db; text-decoration: none; }
+.footer-mini-links a:hover { color: var(--brand); }
+.dev-credit { color: #f7931e; font-weight: 700; text-decoration: none; }
+.dev-credit:hover { text-decoration: underline; }
+
+.lang-switch {
+  display: inline-block; padding: 6px 12px; border: 1.5px solid var(--brand, #f9a11b);
+  border-radius: 999px; color: var(--brand, #f9a11b); font-weight: 700; font-size: 13px; text-decoration: none;
+}
+.lang-switch:hover { background: var(--brand, #f9a11b); color: #fff; }
+
+/* Honeypot + form status */
+.hp-field { position: absolute; left: -9999px; opacity: 0; }
+.form-status { margin-top: 12px; font-size: 14px; color: #065f46; min-height: 1em; }
+
+/* Reveal animation (replaces the old JS-injected keyframes) */
+.reveal-init { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+.reveal-init.is-visible { opacity: 1; transform: none; }
+
+/* ---------- Floating WhatsApp / Call ---------- */
+.float-contact { position: fixed; right: 16px; bottom: 16px; display: flex; flex-direction: column; gap: 10px; z-index: 900; }
+.float-btn {
+  display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 999px; color: #fff;
+  font-weight: 600; font-size: 13px; text-decoration: none; box-shadow: 0 8px 22px rgba(0,0,0,.22);
+  transition: transform .2s ease;
+}
+.float-btn i { font-size: 18px; }
+.float-btn:hover { transform: translateY(-2px); }
+.float-btn--wa { background: #1fa855; }
+.float-btn--call { background: #071c34; }
+@media (max-width: 640px) {
+  .float-contact { left: 0; right: 0; bottom: 0; flex-direction: row; gap: 0; }
+  .float-btn { flex: 1; justify-content: center; border-radius: 0; padding: 14px; box-shadow: none; }
+  body { padding-bottom: 52px; }
+}
+
+/* ---------- Generic sections ---------- */
+.section { padding: 56px 20px; }
+.section--alt { background: #f6f7f9; }
+.section--dark { background: #071c34; color: #fff; }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+.eyebrow-label { color: #f9a11b; font-size: 12px; letter-spacing: 2px; font-weight: 700; text-transform: uppercase; margin: 0 0 8px; }
+.section-heading { font-size: clamp(22px, 2.6vw, 30px); font-weight: 700; color: #071c34; line-height: 1.2; margin: 0 0 14px; }
+.section--dark .section-heading { color: #fff; }
+.section-lead { color: #4b5563; max-width: 760px; line-height: 1.7; font-size: 15px; }
+.section--dark .section-lead { color: #cbd5e1; }
+.prose p { margin: 0 0 14px; line-height: 1.75; color: #374151; font-size: 15px; }
+.prose h2 { font-size: 22px; color: #071c34; margin: 28px 0 12px; }
+.prose h3 { font-size: 17px; color: #071c34; margin: 22px 0 10px; }
+.prose ul { padding-left: 20px; margin: 0 0 16px; }
+.prose li { margin: 6px 0; line-height: 1.6; font-size: 15px; }
+
+/* Breadcrumb */
+.crumbs { font-size: 14px; }
+.crumbs a { color: #fff; text-decoration: none; }
+.crumbs a:hover { color: #f9a11b; }
+.crumbs span[aria-current] { color: #f9a11b; }
+
+/* Hero banner for new pages (reuses .page-banner from services.css when loaded) */
+.hero-band {
+  background: linear-gradient(rgba(7,28,52,.82), rgba(7,28,52,.82)), url('/img/page-banner.webp') center/cover;
+  color: #fff; padding: 56px 20px 44px; text-align: center;
+}
+.hero-band h1 { font-size: clamp(24px, 3.2vw, 34px); font-weight: 700; margin: 0 0 12px; line-height: 1.2; }
+.hero-band p { color: #e2e8f0; max-width: 720px; margin: 0 auto 10px; font-size: 15px; line-height: 1.7; }
+.hero-band .crumbs { margin-top: 14px; }
+.hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 22px; }
+
+/* Buttons */
+.btn-cta, .btn-line {
+  display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 6px;
+  font-weight: 600; font-size: 14px; text-decoration: none; cursor: pointer; border: 2px solid transparent; font-family: inherit;
+}
+.btn-cta { background: #f9a11b; color: #fff; }
+.btn-cta:hover { background: #e08c0a; }
+.btn-line { border-color: currentColor; color: inherit; background: transparent; }
+.btn-wa { background: #1fa855; color: #fff; }
+.btn-wa:hover { background: #178a45; }
+
+/* ---------- Cards grid ---------- */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; }
+.card {
+  background: #fff; border: 1px solid #e7eaef; border-radius: 10px; padding: 18px; text-decoration: none; color: inherit;
+  transition: box-shadow .2s ease, transform .2s ease; display: block;
+}
+a.card:hover { box-shadow: 0 10px 26px rgba(7,28,52,.12); transform: translateY(-2px); }
+.card h3 { font-size: 16px; color: #071c34; margin: 0 0 6px; }
+.card p { font-size: 14px; color: #6b7280; margin: 0; line-height: 1.6; }
+.card .card-ta { color: #f9a11b; font-weight: 600; font-size: 14px; }
+.card i { color: #f9a11b; font-size: 20px; margin-bottom: 10px; display: block; }
+.region-title { font-size: 18px; color: #071c34; margin: 34px 0 14px; padding-bottom: 6px; border-bottom: 2px solid #f9a11b; display: inline-block; }
+
+.chip-list { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 10px 0 0; }
+.chip-list li, .chip-list a {
+  background: #fff7eb; color: #8a4b00; border: 1px solid #fde3b8; padding: 6px 12px; border-radius: 999px; font-size: 14px; text-decoration: none;
+}
+.chip-list a:hover { background: #f9a11b; color: #fff; }
+
+/* Two-column layout */
+.split { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 36px; align-items: start; }
+@media (max-width: 900px) { .split { grid-template-columns: 1fr; } }
+.sticky-card { position: sticky; top: 90px; background: #071c34; color: #fff; border-radius: 14px; padding: 24px; }
+.sticky-card h2, .sticky-card h3 { color: #fff; margin: 0 0 10px; font-size: 18px; }
+.sticky-card p { color: #cbd5e1; font-size: 14px; }
+.sticky-card .btn-cta, .sticky-card .btn-wa { width: 100%; justify-content: center; margin-top: 10px; }
+
+/* ---------- FAQ ---------- */
+.faq { max-width: 900px; }
+.faq details { background: #fff; border: 1px solid #e7eaef; border-radius: 10px; margin-bottom: 10px; }
+.faq summary {
+  cursor: pointer; list-style: none; padding: 14px 44px 14px 16px; font-weight: 600; font-size: 15px; color: #071c34; position: relative;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: '+'; position: absolute; right: 18px; top: 50%; transform: translateY(-50%); font-size: 22px; color: #f9a11b; }
+.faq details[open] summary::after { content: '−'; }
+.faq details p { padding: 0 16px 14px; margin: 0; color: #4b5563; line-height: 1.7; font-size: 14.5px; }
+
+/* ---------- CTA band ---------- */
+.cta-band { background: linear-gradient(120deg, #071c34, #0e3460); color: #fff; padding: 40px 20px; }
+.cta-band .section-inner { display: flex; gap: 20px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.cta-band h2 { margin: 0 0 6px; font-size: clamp(20px, 2.4vw, 26px); color: #fff; }
+.cta-band p { margin: 0; color: #cbd5e1; font-size: 15px; }
+.cta-band .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* ---------- Service-area checker ---------- */
+.area-check { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+.area-check select { flex: 1 1 240px; padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1; font: inherit; }
+.area-result { margin-top: 14px; font-size: 15px; }
+.area-result a { color: #f9a11b; font-weight: 700; }
+
+/* ---------- Map ---------- */
+.tn-map { height: 420px; border-radius: 14px; overflow: hidden; border: 1px solid #e7eaef; background: #e5e7eb; }
+.tn-map__placeholder { height: 100%; display: flex; align-items: center; justify-content: center; color: #6b7280; }
+
+/* ---------- Estimator ---------- */
+.estimator { background: #fff; border: 1px solid #e7eaef; border-radius: 14px; padding: 24px; box-shadow: 0 10px 30px rgba(7,28,52,.06); }
+.estimator .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+.estimator label { display: block; font-weight: 600; font-size: 14px; color: #071c34; margin-bottom: 6px; }
+.estimator input, .estimator select { width: 100%; padding: 11px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font: inherit; }
+.est-result { margin-top: 20px; padding: 20px; border-radius: 12px; background: #fff7eb; border: 1px solid #fde3b8; }
+.est-result h3 { margin: 0 0 10px; color: #071c34; }
+.est-result dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 0 0 14px; }
+.est-result dt { color: #6b7280; }
+.est-result dd { margin: 0; font-weight: 600; color: #071c34; }
+.est-note { font-size: 13px; color: #6b7280; margin-top: 10px; }
+
+/* ---------- Field gallery ---------- */
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.gallery figure { margin: 0; border-radius: 10px; overflow: hidden; aspect-ratio: 4 / 3; background: #e5e7eb; }
+.gallery img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+.gallery figure:hover img { transform: scale(1.05); }
+
+/* Stats strip */
+.stats-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; text-align: center; }
+.stats-strip strong { display: block; font-size: 28px; color: #f9a11b; font-weight: 700; }
+.stats-strip span { color: #cbd5e1; font-size: 14px; }
+
+/* Tamil typography */
+:lang(ta) body, html[lang="ta"] body { font-family: 'Noto Sans Tamil', var(--font-body); }
+html[lang="ta"] .nav-links a, html[lang="ta"] .nav-links span { font-size: 13px; }

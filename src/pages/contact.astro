@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import html from '../content/legacy/contact.html?raw';
+import '../styles/contact.css';
+import { breadcrumb } from '../data/schema';
+const body = html.replace('<form id="contact-form" novalidate', '<form id="contact-form" data-lead-form="Contact page" novalidate')
+  .replace('<div class="form-footer">', '<input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />\n<div class="form-footer">')
+  .replace(/(<p class="form-helper-text">)/, '<p class="form-status" role="status" aria-live="polite"></p>\n$1')
+  .replace('class="cta js-open-request-form" href="#contact-form"', 'class="cta" href="#contact-form"');
+---
+<BaseLayout
+  title="Contact Us | Land Surveyor in Kumbakonam, Tamil Nadu"
+  description="Call +91 98435 00114 or WhatsApp us for land surveys anywhere in Tamil Nadu. Office: No. 114, Kammalar Street, Darasuram, Kumbakonam – 612702. Free quotes."
+  alternate="/ta/contact/"
+  schema={[breadcrumb([{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact/' }])]}
+>
+  <Fragment set:html={body} />
+</BaseLayout>

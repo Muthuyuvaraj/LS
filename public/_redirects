@@ -1,0 +1,16 @@
+# Permanent redirects from the old HTML site (Netlify / Cloudflare Pages)
+/pages/Home.html  /  301
+/pages/about.html  /about/  301
+/pages/team.html  /team/  301
+/pages/project.html  /projects/  301
+/pages/contact.html  /contact/  301
+/pages/services/Totalstation.html  /services/total-station-survey/  301
+/pages/services/DGPS.html  /services/dgps-survey/  301
+/pages/services/Drone.html  /services/drone-survey/  301
+/pages/services/Photogrammetry.html  /services/photogrammetry/  301
+/pages/services/Lidar.html  /services/lidar-survey/  301
+/pages/services/Bathymetric.html  /services/bathymetric-survey/  301
+/pages/services/GIS.html  /services/gis-mapping/  301
+/pages/services/Dataprocessing.html  /services/data-processing/  301
+http://www.cartospatialtechnologies.com/*  https://cartospatialtechnologies.com/:splat  301!
+https://www.cartospatialtechnologies.com/*  https://cartospatialtechnologies.com/:splat  301!

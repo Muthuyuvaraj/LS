@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBand from '../components/CtaBand.astro';
+import html from '../content/legacy/team.html?raw';
+import '../styles/team.css';
+import { breadcrumb } from '../data/schema';
+---
+<BaseLayout
+  title="Our Team | Surveyors, Drone Pilots & GIS Experts"
+  description="Meet the Cartospatial team – experienced land surveyors, drone pilots, LiDAR specialists and GIS analysts delivering precise surveys across Tamil Nadu."
+  schema={[breadcrumb([{ name: 'Home', path: '/' }, { name: 'Team', path: '/team/' }])]}
+>
+  <main><Fragment set:html={html} /></main>
+  <CtaBand />
+</BaseLayout>

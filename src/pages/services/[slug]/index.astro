@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Faq from '../../../components/Faq.astro';
+import CtaBand from '../../../components/CtaBand.astro';
+import '../../../styles/services.css';
+import { SERVICES, type Service } from '../../../data/services';
+import { DISTRICTS, CITY_SLUGS } from '../../../data/districts';
+import { breadcrumb, faqPage, serviceSchema } from '../../../data/schema';
+import { waLink } from '../../../data/site';
+
+export function getStaticPaths() {
+  return SERVICES.map((s) => ({ params: { slug: s.slug }, props: { s } }));
+}
+const { s } = Astro.props as { s: Service };
+const files = import.meta.glob('../../../content/services/*.html', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+const body = files[`../../../content/services/${s.slug}.html`];
+const i = SERVICES.indexOf(s);
+const prev = SERVICES[(i - 1 + SERVICES.length) % SERVICES.length];
+const next = SERVICES[(i + 1) % SERVICES.length];
+const path = `/services/${s.slug}/`;
+const cities = DISTRICTS.filter((d) => CITY_SLUGS.includes(d.slug));
+---
+<BaseLayout
+  title={s.title}
+  description={s.description}
+  keywords={s.keywords}
+  image={s.image}
+  alternate={`/ta/services/${s.slug}/`}
+  schema={[
+    serviceSchema({ name: s.name, description: s.description, path, image: s.image }),
+    breadcrumb([{ name: 'Home', path: '/' }, { name: 'Services', path: '/services/' }, { name: s.name, path }]),
+    faqPage(s.faqs),
+  ]}
+>
+  <section class="page-banner">
+    <div class="banner-content">
+      <h1>{s.name} in Tamil Nadu</h1>
+      <p class="crumbs"><a href="/">Home</a> › <a href="/services/">Services</a> › <span aria-current="page">{s.name}</span></p>
+    </div>
+  </section>
+
+  <main class="wrapper">
+    <nav class="side-menu" aria-label="Services">
+      <ul>
+        {SERVICES.map((x) => <li><a href={`/services/${x.slug}/`} class:list={{ active: x.slug === s.slug }}>{x.name}</a></li>)}
+      </ul>
+      <div class="sticky-card" style="margin-top:20px;position:static">
+        <h2>Get a {s.name} quote</h2>
+        <p>Share your location and area – we reply within 2 working hours.</p>
+        <button class="btn-cta js-open-request-form" type="button" data-service={s.name}>Request a Quote</button>
+        <a class="btn-cta btn-wa" href={waLink(`Hi Cartospatial, I need a ${s.name}.`)} target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</a>
+      </div>
+    </nav>
+    <article class="content">
+      <Fragment set:html={body} />
+
+      <h2>{s.name} Across All 38 Districts of Tamil Nadu</h2>
+      <p class="desc">
+        Our survey teams travel from Kumbakonam to every part of the state – from Chennai and the northern industrial corridor to
+        the Kongu belt, the Cauvery delta and South Tamil Nadu. Popular {s.name.toLowerCase()} locations:
+      </p>
+      <ul class="chip-list">
+        {cities.map((d) => (
+          <li><a href={s.core ? `/services/${s.slug}/${d.slug}/` : `/locations/${d.slug}/`}>{s.name} in {d.name}</a></li>
+        ))}
+        <li><a href="/locations/">All districts →</a></li>
+      </ul>
+    </article>
+  </main>
+
+  <div class="arrow-navigation">
+    <a href={`/services/${prev.slug}/`} aria-label={`Previous service – ${prev.name}`}><i class="fa-solid fa-angles-left"></i></a>
+    <a href={`/services/${next.slug}/`} aria-label={`Next service – ${next.name}`}><i class="fa-solid fa-angles-right"></i></a>
+  </div>
+
+  <Faq faqs={s.faqs} title={`${s.name} – FAQs`} alt />
+  <CtaBand service={s.name} />
+</BaseLayout>

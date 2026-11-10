@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CtaBand from '../../../components/CtaBand.astro';
+import { SERVICES, type Service } from '../../../data/services';
+import { breadcrumb, serviceSchema } from '../../../data/schema';
+import { waLink } from '../../../data/site';
+
+export function getStaticPaths() {
+  return SERVICES.map((s) => ({ params: { slug: s.slug }, props: { s } }));
+}
+const { s } = Astro.props as { s: Service };
+const path = `/ta/services/${s.slug}/`;
+const desc = `${s.ta.name} – ${s.ta.summary} தமிழ்நாடு முழுவதும் Cartospatial Technologies.`;
+const steps = [
+  ['தொடர்பு', 'WhatsApp / அழைப்பு மூலம் நிலத்தின் இடம், பரப்பு மற்றும் ஆவணங்களைப் பகிருங்கள்.'],
+  ['விலைப்புள்ளி', 'தேவையை புரிந்து 2 வேலை நேரத்திற்குள் விலை மற்றும் தேதியை உறுதி செய்வோம்.'],
+  ['கள அளவை', 'அனுபவமுள்ள அளவையாளர்கள் துல்லியமான கருவிகளுடன் நிலத்தை அளப்பார்கள்.'],
+  ['வரைபடம் வழங்கல்', 'கையொப்பமிட்ட PDF வரைபடம் மற்றும் AutoCAD கோப்புகள் வழங்கப்படும்.'],
+];
+---
+<BaseLayout
+  lang="ta"
+  alternate={`/services/${s.slug}/`}
+  title={`${s.ta.name} – தமிழ்நாடு | Cartospatial Technologies`}
+  description={desc}
+  keywords={`${s.ta.name}, ${s.name} தமிழ்நாடு, நில அளவை, நில அளவையாளர்`}
+  image={s.image}
+  schema={[
+    serviceSchema({ name: s.ta.name, description: desc, path, image: s.image }),
+    breadcrumb([{ name: 'முகப்பு', path: '/ta/' }, { name: s.ta.name, path }]),
+  ]}
+>
+  <section class="hero-band">
+    <h1>{s.ta.name}</h1>
+    <p>{s.ta.summary}</p>
+    <div class="hero-actions">
+      <button class="btn-cta js-open-request-form" type="button" data-service={s.name}>விலைப்புள்ளி பெற</button>
+      <a class="btn-cta btn-wa" href={waLink(`வணக்கம் Cartospatial, எனக்கு ${s.ta.name} தேவை.`)} target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</a>
+    </div>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/ta/">முகப்பு</a> › <span aria-current="page">{s.ta.name}</span></nav>
+  </section>
+
+  <main class="section">
+    <div class="section-inner split">
+      <article class="prose">
+        <img src={s.image} alt={s.ta.name} width="800" height="420" style="width:100%;height:auto;max-height:360px;object-fit:cover;border-radius:12px;margin-bottom:20px" />
+        <h2>{s.ta.name} – எங்கள் சேவை</h2>
+        <p>{s.ta.summary}</p>
+        <p>கும்பகோணம் தாராசுரத்தில் உள்ள எங்கள் அலுவலகத்திலிருந்து தமிழ்நாட்டின் அனைத்து 38 மாவட்டங்களுக்கும் அளவைக் குழுக்களை அனுப்புகிறோம். வீட்டு மனை, விவசாய நிலம், லேஅவுட், தொழிற்சாலை மற்றும் அரசு திட்டங்கள் என அனைத்துக்கும் சேவை வழங்குகிறோம்.</p>
+        <h2>எப்படி வேலை செய்கிறோம்</h2>
+        <ol>
+          {steps.map(([t, d]) => <li><strong>{t}:</strong> {d}</li>)}
+        </ol>
+        <h2>மற்ற சேவைகள்</h2>
+        <ul class="chip-list">
+          {SERVICES.filter((x) => x.slug !== s.slug).map((x) => <li><a href={`/ta/services/${x.slug}/`}>{x.ta.name}</a></li>)}
+        </ul>
+        <p style="margin-top:18px"><a href={`/services/${s.slug}/`} lang="en" hreflang="en">Read this page in English →</a></p>
+      </article>
+      <aside class="sticky-card">
+        <h2>{s.ta.name} விலைப்புள்ளி</h2>
+        <p>நிலம் உள்ள இடம் மற்றும் பரப்பை அனுப்புங்கள். 2 வேலை நேரத்திற்குள் பதில்.</p>
+        <button class="btn-cta js-open-request-form" type="button" data-service={s.name}>கோரிக்கை அனுப்ப</button>
+        <a class="btn-cta btn-wa" href={waLink(`வணக்கம் Cartospatial, எனக்கு ${s.ta.name} தேவை.`)} target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</a>
+      </aside>
+    </div>
+  </main>
+  <CtaBand lang="ta" service={s.name} />
+</BaseLayout>

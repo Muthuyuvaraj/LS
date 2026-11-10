@@ -1,0 +1,95 @@
+---
+import { SITE } from '../data/site';
+import { SERVICES } from '../data/services';
+interface Props { lang: 'en' | 'ta'; alternate?: string }
+const { lang, alternate } = Astro.props;
+const ta = lang === 'ta';
+const home = ta ? '/ta/' : '/';
+const svcHref = (slug: string) => (ta ? `/ta/services/${slug}/` : `/services/${slug}/`);
+const t = ta
+  ? { home: 'முகப்பு', company: 'நிறுவனம்', about: 'எங்களைப் பற்றி', team: 'குழு', services: 'சேவைகள்', locations: 'இடங்கள்', projects: 'திட்டங்கள்', estimator: 'செலவு மதிப்பீடு', contact: 'தொடர்பு', quote: 'விலைப்புள்ளி பெற', call: 'அழைக்க', email: 'மின்னஞ்சல்', address: 'முகவரி', switchLabel: 'English' }
+  : { home: 'Home', company: 'Company', about: 'About', team: 'Team', services: 'Services', locations: 'Locations', projects: 'Projects', estimator: 'Cost Estimator', contact: 'Contact', quote: 'Request a Quote', call: 'Call Now', email: 'Email', address: 'Address', switchLabel: 'தமிழ்' };
+const switchHref = alternate ?? (ta ? '/' : '/ta/');
+---
+<header class="top-header">
+  <a class="logo" href={home}>
+    <img src={SITE.logo} alt="Cartospatial Technologies – Land Survey Company in Tamil Nadu" width="52" height="52" />
+  </a>
+  <button class="quote-btn js-open-request-form" type="button">{t.quote}</button>
+  <div class="contact-info">
+    <a class="contact-item" href={`tel:${SITE.phoneRaw}`} data-track="call">
+      <i class="fa-solid fa-phone" aria-hidden="true"></i>
+      <div><strong>{t.call}</strong><small>{SITE.phone}</small></div>
+    </a>
+    <a class="contact-item" href={`mailto:${SITE.email}`} data-track="email">
+      <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+      <div><strong>{t.email}</strong><small>{SITE.email}</small></div>
+    </a>
+    <div class="contact-item">
+      <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+      <div><strong>{t.address}</strong><small>No: 114 Darasuram, Kumbakonam</small></div>
+    </div>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Main">
+  <div class="nav-container">
+    <a class="nav-left" href={home}><img src={SITE.logo} alt="Cartospatial Technologies" width="160" height="48" /></a>
+    <ul class="nav-links">
+      <li><a href={home}>{t.home}</a></li>
+      {!ta && (
+        <li class="dropdown">
+          <span tabindex="0">{t.company}</span>
+          <ul class="submenu">
+            <li><a href="/about/">{t.about}</a></li>
+            <li><a href="/team/">{t.team}</a></li>
+            <li><a href="/projects/">Projects</a></li>
+          </ul>
+        </li>
+      )}
+      <li class="dropdown">
+        <span tabindex="0">{t.services}</span>
+        <ul class="submenu">
+          {SERVICES.map((s) => <li><a href={svcHref(s.slug)}>{ta ? s.ta.name : s.name}</a></li>)}
+        </ul>
+      </li>
+      {!ta && <li><a href="/locations/">{t.locations}</a></li>}
+      <li><a href="/survey-cost-estimator/">{t.estimator}</a></li>
+      <li><a href={ta ? '/ta/contact/' : '/contact/'}>{t.contact}</a></li>
+    </ul>
+    <div class="nav-icons">
+      <a class="lang-switch" href={switchHref} hreflang={ta ? 'en' : 'ta'} lang={ta ? 'en' : 'ta'}>{t.switchLabel}</a>
+    </div>
+    <button class="hamburger" type="button" aria-label="Open navigation" aria-expanded="false">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </div>
+</nav>
+
+<div class="panel-overlay" role="presentation"></div>
+<aside class="mobile-panel" aria-label="Mobile navigation">
+  <button class="close-panel" type="button" aria-label="Close navigation"><i class="fa-solid fa-xmark"></i></button>
+  <ul class="mobile-menu">
+    <li><a href={home}>{t.home}</a></li>
+    {!ta && (
+      <li class="m-dropdown">
+        <button class="m-trigger" type="button" aria-expanded="false">{t.company} <span class="toggle">+</span></button>
+        <ul class="m-submenu">
+          <li><a href="/about/">{t.about}</a></li>
+          <li><a href="/team/">{t.team}</a></li>
+          <li><a href="/projects/">Projects</a></li>
+        </ul>
+      </li>
+    )}
+    <li class="m-dropdown">
+      <button class="m-trigger" type="button" aria-expanded="false">{t.services} <span class="toggle">+</span></button>
+      <ul class="m-submenu">
+        {SERVICES.map((s) => <li><a href={svcHref(s.slug)}>{ta ? s.ta.name : s.name}</a></li>)}
+      </ul>
+    </li>
+    {!ta && <li><a href="/locations/">{t.locations}</a></li>}
+    <li><a href="/survey-cost-estimator/">{t.estimator}</a></li>
+    <li><a href={ta ? '/ta/contact/' : '/contact/'}>{t.contact}</a></li>
+    <li><a href={switchHref} hreflang={ta ? 'en' : 'ta'}>{t.switchLabel}</a></li>
+  </ul>
+</aside>

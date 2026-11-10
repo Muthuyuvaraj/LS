@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Faq from '../../../components/Faq.astro';
+import CtaBand from '../../../components/CtaBand.astro';
+import { SERVICES, type Service } from '../../../data/services';
+import { DISTRICTS, CITY_SLUGS, nearbyDistricts, type District } from '../../../data/districts';
+import { districtNeeds, regionText } from '../../../data/localContent';
+import { breadcrumb, faqPage, serviceSchema } from '../../../data/schema';
+import { waLink } from '../../../data/site';
+
+// "<service> in <city>" pages – only for the 4 core field services × 10 major cities (40 pages),
+// to avoid thin doorway pages.
+export function getStaticPaths() {
+  return SERVICES.filter((s) => s.core).flatMap((s) =>
+    DISTRICTS.filter((d) => CITY_SLUGS.includes(d.slug)).map((d) => ({ params: { slug: s.slug, city: d.slug }, props: { s, d } })),
+  );
+}
+const { s, d } = Astro.props as { s: Service; d: District };
+const path = `/services/${s.slug}/${d.slug}/`;
+const relevant = districtNeeds(d).filter((n) => n.services.includes(s.slug));
+const otherCities = DISTRICTS.filter((x) => CITY_SLUGS.includes(x.slug) && x.slug !== d.slug);
+const otherServices = SERVICES.filter((x) => x.core && x.slug !== s.slug);
+const nearby = nearbyDistricts(d, 4);
+const desc = `${s.name} in ${d.name} by Cartospatial Technologies – ${s.short.replace(/\.$/, '')} for land, layouts and projects in ${d.towns.slice(0, 3).join(', ')}. Get a free quote today.`;
+const faqs = [
+  ...s.faqs.slice(0, 2),
+  { q: `Do you provide ${s.name.toLowerCase()} in ${d.name}?`, a: `Yes. We carry out ${s.name.toLowerCase()} across ${d.name} district including ${d.towns.slice(0, 4).join(', ')}. Share your location and area on WhatsApp for a quote.` },
+  { q: `How much does ${s.name.toLowerCase()} cost in ${d.name}?`, a: `Cost depends on land area, terrain, deliverables and site access. Try our Survey Cost Estimator for field days and deliverables, then contact us for an exact price for your site in ${d.name}.` },
+];
+---
+<BaseLayout
+  title={`${s.name} in ${d.name} | Cartospatial`}
+  description={desc}
+  keywords={`${s.name.toLowerCase()} ${d.name}, ${s.name.toLowerCase()} in ${d.name}, ${s.name.toLowerCase()} near me, land survey ${d.name}, ${d.towns.slice(0, 3).map((t) => `${s.name.toLowerCase()} ${t}`).join(', ')}`}
+  image={s.image}
+  schema={[
+    serviceSchema({ name: `${s.name} in ${d.name}`, description: desc, path, image: s.image, area: d.name }),
+    breadcrumb([{ name: 'Home', path: '/' }, { name: 'Services', path: '/services/' }, { name: s.name, path: `/services/${s.slug}/` }, { name: d.name, path }]),
+    faqPage(faqs),
+  ]}
+>
+  <section class="hero-band">
+    <h1>{s.name} in {d.name}</h1>
+    <p>{s.short} Serving {d.towns.join(', ')} and all of {d.name} district.</p>
+    <div class="hero-actions">
+      <button class="btn-cta js-open-request-form" type="button" data-service={s.name}>Get a Free Quote</button>
+      <a class="btn-cta btn-wa" href={waLink(`Hi Cartospatial, I need a ${s.name} in ${d.name}.`)} target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</a>
+    </div>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <a href={`/services/${s.slug}/`}>{s.name}</a> › <span aria-current="page">{d.name}</span></nav>
+  </section>
+
+  <main class="section">
+    <div class="section-inner split">
+      <article class="prose">
+        <img src={s.image} alt={`${s.name} in ${d.name}`} width="800" height="420" style="width:100%;height:auto;max-height:360px;object-fit:cover;border-radius:12px;margin-bottom:20px" />
+        <h2>{s.name} services for {d.name}</h2>
+        <p>{s.description}</p>
+        <p>{d.note} Our team brings calibrated equipment to sites across {d.name} – part of {regionText[d.region]}.</p>
+
+        {relevant.length > 0 && (
+          <>
+            <h2>Where {s.name.toLowerCase()} helps in {d.name}</h2>
+            {relevant.map((n) => (<><h3>{n.title}</h3><p>{n.text}</p></>))}
+          </>
+        )}
+
+        <h2>What you get</h2>
+        <ul>
+          <li>Site visit by an experienced surveyor with calibrated {s.name.replace(' Survey', '')} equipment</li>
+          <li>Signed PDF drawing plus AutoCAD (DWG/DXF) files{s.slug === 'drone-survey' || s.slug === 'lidar-survey' ? ', orthophoto / point cloud and contours' : ''}</li>
+          <li>Coordinates in WGS84 / UTM so drawings match Google Earth, FMB overlays and GIS</li>
+          <li>Clear explanation of results – in Tamil or English</li>
+        </ul>
+
+        <h2>Towns we cover in {d.name}</h2>
+        <ul class="chip-list">{d.towns.map((t) => <li>{t}</li>)}</ul>
+
+        <h2>Other services in {d.name}</h2>
+        <ul class="chip-list">
+          {otherServices.map((x) => <li><a href={`/services/${x.slug}/${d.slug}/`}>{x.name} in {d.name}</a></li>)}
+          <li><a href={`/locations/${d.slug}/`}>All survey services in {d.name}</a></li>
+        </ul>
+
+        <h2>{s.name} in other cities</h2>
+        <ul class="chip-list">{otherCities.map((x) => <li><a href={`/services/${s.slug}/${x.slug}/`}>{x.name}</a></li>)}</ul>
+        <p style="margin-top:12px">Nearby: {nearby.map((n, i) => <>{i > 0 && ' · '}<a href={`/locations/${n.slug}/`} style="color:#f9a11b">{n.name}</a></>)}</p>
+      </article>
+
+      <aside class="sticky-card">
+        <h2>{s.name} quote – {d.name}</h2>
+        <p>Send your location and land area. We reply within 2 working hours.</p>
+        <button class="btn-cta js-open-request-form" type="button" data-service={s.name}>Request a Quote</button>
+        <a class="btn-cta btn-wa" href={waLink(`Hi Cartospatial, I need a ${s.name} in ${d.name}.`)} target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp Us</a>
+        <a class="btn-cta" style="background:transparent;border-color:#fff" href="/survey-cost-estimator/"><i class="fa-solid fa-calculator" aria-hidden="true"></i> Estimate Cost</a>
+      </aside>
+    </div>
+  </main>
+
+  <Faq faqs={faqs} title={`${s.name} in ${d.name} – FAQs`} alt />
+  <CtaBand service={s.name} title={`Book a ${s.name} in ${d.name}`} />
+</BaseLayout>

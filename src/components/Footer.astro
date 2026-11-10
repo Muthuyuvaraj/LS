@@ -1,0 +1,59 @@
+---
+import { SITE } from '../data/site';
+import { SERVICES } from '../data/services';
+import { DISTRICTS, CITY_SLUGS } from '../data/districts';
+interface Props { lang: 'en' | 'ta' }
+const ta = Astro.props.lang === 'ta';
+const cities = DISTRICTS.filter((d) => CITY_SLUGS.includes(d.slug));
+const socials = Object.entries(SITE.social).filter(([, url]) => url);
+const icons: Record<string, string> = { instagram: 'fa-instagram', facebook: 'fa-facebook-f', linkedin: 'fa-linkedin-in', youtube: 'fa-youtube', googleBusiness: 'fa-google' };
+---
+<footer class="footer">
+  <div class="footer-container footer-container--wide">
+    <div class="footer-about">
+      <div class="footer-logo">
+        <i class="fa-solid fa-helmet-safety" aria-hidden="true"></i>
+        <p class="footer-brand">Cartospatial</p>
+      </div>
+      <p>
+        {ta
+          ? 'தமிழ்நாட்டின் அனைத்து 38 மாவட்டங்களிலும் டோட்டல் ஸ்டேஷன், DGPS, ட்ரோன், லிடார் மற்றும் GIS மூலம் துல்லியமான நில அளவை சேவைகள்.'
+          : 'Professional land surveying and geospatial solutions across all 38 districts of Tamil Nadu using Total Station, DGPS, Drone, LiDAR and GIS for precision mapping and infrastructure excellence.'}
+      </p>
+      <a class="footer-phone" href={`tel:${SITE.phoneRaw}`} data-track="call">{SITE.phone}</a>
+      <button class="footer-btn js-open-request-form" type="button">{ta ? 'ஆன்லைன் படிவம் மூலம் கோருங்கள்' : 'Request a Quote'}</button>
+    </div>
+    <div class="footer-links">
+      <p class="footer-heading">{ta ? 'சேவைகள்' : 'Services'}</p>
+      <ul>
+        {SERVICES.map((s) => <li><a href={ta ? `/ta/services/${s.slug}/` : `/services/${s.slug}/`}>{ta ? s.ta.name : s.name}</a></li>)}
+      </ul>
+    </div>
+    <div class="footer-links">
+      <p class="footer-heading">{ta ? 'சேவைப் பகுதிகள்' : 'Service Areas'}</p>
+      <ul>
+        {cities.map((d) => <li><a href={`/locations/${d.slug}/`}>{ta ? `${d.ta} நில அளவை` : `Land Survey in ${d.name}`}</a></li>)}
+        <li><a href="/locations/"><strong>{ta ? 'அனைத்து 38 மாவட்டங்கள் →' : 'All 38 districts →'}</strong></a></li>
+      </ul>
+    </div>
+    <div class="footer-contact">
+      <p class="footer-heading">{ta ? 'தொடர்பு கொள்ள' : 'Get In Touch'}</p>
+      <ul>
+        <li><i class="fa-solid fa-location-dot" aria-hidden="true"></i> {SITE.address.street}, {SITE.address.locality} – {SITE.address.postalCode}</li>
+        <li><i class="fa-solid fa-envelope" aria-hidden="true"></i> <a href={`mailto:${SITE.email}`} data-track="email">{SITE.email}</a></li>
+        <li><i class="fa-solid fa-phone" aria-hidden="true"></i> <a href={`tel:${SITE.phoneRaw}`} data-track="call">{SITE.phone}</a></li>
+        <li><i class="fa-regular fa-clock" aria-hidden="true"></i> {SITE.hoursText}</li>
+      </ul>
+      <ul class="footer-mini-links">
+        <li><a href="/about/">About</a></li><li><a href="/team/">Team</a></li><li><a href="/projects/">Projects</a></li>
+        <li><a href="/survey-cost-estimator/">Cost Estimator</a></li><li><a href="/faq/">FAQ</a></li><li><a href="/contact/">Contact</a></li>
+      </ul>
+      <div class="footer-social">
+        {socials.map(([k, url]) => <a href={url} target="_blank" rel="noopener noreferrer" aria-label={k}><i class={`fa-brands ${icons[k]}`}></i></a>)}
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© {new Date().getFullYear()} {SITE.name}. Developed and Designed by <a href="https://www.linkedin.com/in/muthu-yuvaraj-m/" target="_blank" rel="noopener noreferrer" class="dev-credit">Muthu Yuvaraj</a></p>
+  </div>
+</footer>
