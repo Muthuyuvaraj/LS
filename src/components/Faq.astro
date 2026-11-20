@@ -1,11 +1,15 @@
 ---
-interface Props { faqs: { q: string; a: string }[]; title?: string; eyebrow?: string; alt?: boolean }
-const { faqs, title = 'Frequently Asked Questions', eyebrow = 'FAQ', alt = false } = Astro.props;
+interface Props { faqs: { q: string; a: string }[]; title?: string; eyebrow?: string; alt?: boolean; lead?: string; id?: string }
+const { faqs, title = 'Frequently Asked Questions', eyebrow = 'FAQ', alt = false, lead, id = 'faq-title' } = Astro.props;
 ---
-<section class:list={['section', { 'section--alt': alt }]} aria-labelledby="faq-title">
-  <div class="section-inner">
-    <p class="eyebrow-label">{eyebrow}</p>
-    <h2 class="section-heading" id="faq-title">{title}</h2>
+<section class:list={['section', { 'section--alt': alt }]} aria-labelledby={id}>
+  <div class="container faq-wrap">
+    <div>
+      <p class="eyebrow-label">{eyebrow}</p>
+      <h2 class="section-heading" id={id}>{title}</h2>
+      {lead && <p class="section-lead">{lead}</p>}
+      <slot />
+    </div>
     <div class="faq">
       {faqs.map((f, i) => (
         <details open={i === 0}>

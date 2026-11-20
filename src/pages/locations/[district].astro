@@ -36,7 +36,7 @@ const desc = `Land survey in ${d.name} district – DGPS, Total Station, drone &
 >
   <section class="hero-band">
     <h1>Land Survey Services in {d.name}</h1>
-    <p lang="ta" style="color:#f9a11b;font-weight:600">{d.ta} மாவட்டத்தில் நில அளவை சேவைகள்</p>
+    <p lang="ta" class="lead-ta">{d.ta} மாவட்டத்தில் நில அளவை சேவைகள்</p>
     <p>DGPS, Total Station, drone and LiDAR surveys across {d.name} district – {d.towns.join(', ')} and surrounding villages.</p>
     <div class="hero-actions">
       <button class="btn-cta js-open-request-form" type="button">Get a Free Quote</button>
@@ -88,8 +88,8 @@ const desc = `Land survey in ${d.name} district – DGPS, Total Station, drone &
         <p>Tell us your village, survey number and land area. We’ll confirm the scope and cost – usually within 2 working hours.</p>
         <button class="btn-cta js-open-request-form" type="button">Request a Quote</button>
         <a class="btn-cta btn-wa" href={waLink(`Hi Cartospatial, I need a land survey in ${d.name} district.`)} target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp Us</a>
-        <a class="btn-cta" style="background:transparent;border-color:#fff" href="/survey-cost-estimator/"><i class="fa-solid fa-calculator" aria-hidden="true"></i> Estimate Cost</a>
-        <p style="margin-top:16px;font-size:13px">All services: {SERVICES.map((s, i) => <>{i > 0 && ' · '}<a href={svcLink(s.slug)} style="color:#f9a11b">{s.name}</a></>)}</p>
+        <a class="btn btn--ghost" href="/survey-cost-estimator/"><i class="fa-solid fa-calculator" aria-hidden="true"></i> Estimate Cost</a>
+        <p style="margin-top:16px;font-size:13px">All services: {SERVICES.map((s, i) => <>{i > 0 && ' · '}<a href={svcLink(s.slug)}>{s.name}</a></>)}</p>
       </aside>
     </div>
   </main>

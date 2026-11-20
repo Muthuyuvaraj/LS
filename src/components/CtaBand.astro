@@ -9,15 +9,17 @@ const {
 } = Astro.props;
 const msg = `Hi Cartospatial, I need a quote${service ? ` for ${service}` : ''}.`;
 ---
-<section class="cta-band">
-  <div class="section-inner">
-    <div>
-      <h2>{title}</h2>
-      <p>{text}</p>
-    </div>
-    <div class="actions">
-      <button class="btn-cta js-open-request-form" type="button" data-service={service}><i class="fa-solid fa-file-pen" aria-hidden="true"></i> {ta ? 'விலைப்புள்ளி பெற' : 'Get a Free Quote'}</button>
-      <a class="btn-cta btn-wa" href={waLink(msg)} target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</a>
+<section class="cta-band" aria-label={ta ? 'விலைப்புள்ளி' : 'Get a quote'}>
+  <div class="container">
+    <div class="cta-card">
+      <div>
+        <h2>{title}</h2>
+        <p>{text}</p>
+      </div>
+      <div class="actions">
+        <button class="btn js-open-request-form" type="button" data-service={service}><i class="fa-solid fa-file-pen" aria-hidden="true"></i> {ta ? 'விலைப்புள்ளி பெற' : 'Get a Free Quote'}</button>
+        <a class="btn btn--wa" href={waLink(msg)} target="_blank" rel="noopener" data-track="whatsapp"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</a>
+      </div>
     </div>
   </div>
 </section>

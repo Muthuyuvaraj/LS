@@ -8,7 +8,7 @@ const msg = ta ? 'வணக்கம் Cartospatial, எனக்கு நி�
   <a class="float-btn float-btn--wa" href={waLink(msg)} target="_blank" rel="noopener" data-track="whatsapp" aria-label="Chat on WhatsApp">
     <i class="fa-brands fa-whatsapp" aria-hidden="true"></i><span>WhatsApp</span>
   </a>
-  <a class="float-btn float-btn--call" href={`tel:${SITE.phoneRaw}`} data-track="call" aria-label={`Call ${SITE.phone}`}>
+  <a class="float-btn float-btn--call only-mobile" href={`tel:${SITE.phoneRaw}`} data-track="call" aria-label={`Call ${SITE.phone}`}>
     <i class="fa-solid fa-phone" aria-hidden="true"></i><span>{ta ? 'அழைக்க' : 'Call'}</span>
   </a>
 </div>

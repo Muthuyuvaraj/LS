@@ -1,6 +1,7 @@
 // Single source of truth for business details used across the whole site.
 export const SITE = {
   name: 'Cartospatial Technologies',
+  brand: 'CST Survey',
   shortName: 'Cartospatial',
   url: 'https://cartospatialtechnologies.com',
   phone: '+91 98435 00114',
@@ -29,7 +30,9 @@ export const SITE = {
     googleBusiness: '',
   },
   defaultOgImage: '/img/og-image.jpg',
-  logo: '/img/logo1.png',
+  logo: '/img/brand/cst-survey-logo-600.png',
+  logoSmall: '/img/brand/cst-survey-logo-300.png',
+  icon: '/favicon-512x512.png',
 };
 
 export const waLink = (text: string) =>

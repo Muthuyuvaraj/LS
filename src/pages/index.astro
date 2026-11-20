@@ -3,76 +3,252 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Faq from '../components/Faq.astro';
 import CtaBand from '../components/CtaBand.astro';
 import AreaChecker from '../components/AreaChecker.astro';
-import homeHtml from '../content/legacy/Home.html?raw';
-import '../styles/home.css';
+import { SERVICES } from '../data/services';
 import { DISTRICTS, CITY_SLUGS } from '../data/districts';
 import { GENERAL_FAQS } from '../data/faqs';
 import { faqPage } from '../data/schema';
+import { SITE, waLink } from '../data/site';
 
 const faqs = GENERAL_FAQS.slice(0, 6);
 const cities = DISTRICTS.filter((d) => CITY_SLUGS.includes(d.slug));
+
+const why = [
+  { icon: 'fa-solid fa-crosshairs', title: 'Centimetre accuracy', text: 'Calibrated Total Station and RTK DGPS equipment, with checks on every control point before we leave the site.' },
+  { icon: 'fa-solid fa-file-signature', title: 'Patta & FMB clarity', text: 'We overlay FMB sketches and village maps on survey data so you can see the true boundary – and explain it in Tamil or English.' },
+  { icon: 'fa-solid fa-layer-group', title: 'One team, every method', text: 'Ground, drone, LiDAR and bathymetric surveys plus GIS and CAD processing – no hand-offs between vendors.' },
+  { icon: 'fa-solid fa-bolt', title: 'Fast, transparent quotes', text: 'Clear scope and price, usually within 2 working hours. Signed PDF and AutoCAD drawings delivered on time.' },
+];
+
+const steps = [
+  { title: 'Share your site', text: 'Send the location, area and documents (patta, FMB) on WhatsApp, phone or our form.' },
+  { title: 'Get a clear quote', text: 'We confirm the right method, deliverables, date and price – usually within 2 working hours.' },
+  { title: 'Field survey', text: 'Our surveyors visit with calibrated Total Station, DGPS, drone or LiDAR equipment.' },
+  { title: 'Drawings delivered', text: 'Signed PDF, AutoCAD (DWG/DXF), coordinates and a clear explanation of the results.' },
+];
+
+const work = [
+  { img: '/img/20250801_102051AMByGPSMapCamera.webp', tag: 'DGPS Survey', title: 'GNSS base station · Karapakkam, Chennai' },
+  { img: '/img/20250807_83046AMByGPSMapCamera.webp', tag: 'DGPS Survey', title: 'RTK rover survey · Chennai' },
+  { img: '/img/IMG-20251012-WA0005.webp', tag: 'Field survey', title: 'Open land boundary survey' },
+  { img: '/img/IMG-20251006-WA0008.webp', tag: 'DGPS Survey', title: 'Rooftop GNSS set-up with our team' },
+  { img: '/img/IMG-20250606-WA0010.webp', tag: 'Photogrammetry', title: 'Close-range 3D capture of a sculpture' },
+];
+
+const quotes = [
+  { name: 'Subash Kannan', role: '20 km irrigation canal · DGPS', text: 'The DGPS survey for our 20 km irrigation canal was executed with exceptional accuracy. Cartospatial delivered reliable centimetre-level data even across tough terrain.' },
+  { name: 'Arhan Hameed', role: 'Topographic mapping · Drone', text: 'The drone topographical survey was fast, precise and highly efficient. The high-resolution imagery and terrain models saved us time and cost.' },
+  { name: 'Siraj Khoj', role: '30-acre site · LiDAR', text: 'The LiDAR classification for our 30-acre site was extremely accurate and insightful. A skilled team and a trusted partner for geospatial intelligence.' },
+];
 ---
 <BaseLayout
-  title="Land Survey Company in Tamil Nadu | DGPS, Drone & LiDAR"
-  description="Cartospatial Technologies – trusted land surveyors in all 38 districts of Tamil Nadu. DGPS, Total Station, Drone, LiDAR, bathymetric & GIS surveys with centimetre accuracy. Free quote on WhatsApp."
-  keywords="land survey Tamil Nadu, land surveyor near me, DGPS survey, drone survey, total station survey, LiDAR survey, patta land survey, boundary survey, Kumbakonam surveyor"
+  title="Land Survey Company in Tamil Nadu | DGPS, Drone & LiDAR – CST Survey"
+  description="CST Survey – trusted land surveyors in all 38 districts of Tamil Nadu. DGPS, Total Station, drone, LiDAR & GIS surveys with cm accuracy. Free quote on WhatsApp."
+  keywords="land survey Tamil Nadu, land surveyor near me, DGPS survey, drone survey, total station survey, LiDAR survey, patta land survey, boundary survey, Kumbakonam surveyor, CST Survey"
   alternate="/ta/"
   schema={[faqPage(faqs)]}
   bodyClass="home-page"
 >
   <Fragment slot="head">
-    <link rel="preload" as="image" href="/img/pbg-1.webp" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11.1.14/swiper-bundle.min.css" />
+    <link rel="preload" as="image" href="/img/hero-surveyor-900.webp" fetchpriority="high" />
   </Fragment>
 
   <main>
-    <Fragment set:html={homeHtml} />
+    <!-- HERO -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div>
+          <p class="hero-badge"><b>38</b> districts · one trusted survey team</p>
+          <h1 id="hero-title">Precision land surveys <span class="accent">across Tamil Nadu</span></h1>
+          <p class="hero-lead">
+            Total Station, DGPS, drone and LiDAR surveys with centimetre accuracy – for landowners, builders, engineers and government projects.
+            Signed drawings you can take to the taluk office, bank or architect.
+          </p>
+          <div class="hero-actions">
+            <button class="btn js-open-request-form" type="button"><i class="fa-solid fa-file-pen" aria-hidden="true"></i> Get a Free Quote</button>
+            <a class="btn btn--ghost" href={waLink('Hi Cartospatial, I need details about a land survey.')} target="_blank" rel="noopener" data-track="whatsapp"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Chat on WhatsApp</a>
+          </div>
+          <ul class="hero-trust">
+            <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Reply within 2 working hours</li>
+            <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> PDF + AutoCAD deliverables</li>
+            <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Tamil &amp; English support</li>
+          </ul>
+        </div>
 
-    <section class="section section--dark" aria-labelledby="stats-title">
-      <div class="section-inner">
-        <h2 class="sr-only" id="stats-title">Cartospatial in numbers</h2>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="hero-photo hero-photo--main">
+            <img src="/img/hero-surveyor-900.webp" alt="" width="900" height="1200" fetchpriority="high" decoding="async" />
+          </div>
+          <div class="hero-photo hero-photo--inset">
+            <img src="/img/hero-field-500.webp" alt="" width="500" height="667" decoding="async" />
+          </div>
+          <div class="float-chip float-chip--a">
+            <span class="ic"><i class="fa-solid fa-location-crosshairs"></i></span>
+            <span><strong>cm-level</strong><small>RTK DGPS accuracy</small></span>
+          </div>
+          <div class="float-chip float-chip--b">
+            <span class="ic"><i class="fa-solid fa-map-location-dot"></i></span>
+            <span><strong>50+ projects</strong><small>delivered across Tamil Nadu</small></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="section" id="services" aria-labelledby="services-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow-label">Our services</p>
+            <h2 class="section-heading" id="services-title">Land survey &amp; mapping services</h2>
+            <p class="section-lead">Eight specialised services delivered by one experienced team – from a single house plot to 100 km corridors.</p>
+          </div>
+          <a class="btn btn--outline" href="/services/">All services <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="svc-grid">
+          {SERVICES.map((s) => (
+            <a class="svc-card" href={`/services/${s.slug}/`}>
+              <div class="svc-media">
+                <div class="svc-img"><img src={s.image} alt={`${s.name} in Tamil Nadu`} width="400" height="250" loading="lazy" decoding="async" /></div>
+                <span class="svc-icon"><i class={s.icon} aria-hidden="true"></i></span>
+              </div>
+              <div class="svc-body">
+                <h3>{s.name}</h3>
+                <p>{s.short}</p>
+                <span class="link-arrow">Learn more</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="section section--dark section--tight" aria-labelledby="stats-title">
+      <div class="container">
+        <h2 class="sr-only" id="stats-title">CST Survey in numbers</h2>
         <div class="stats-strip">
           <div><strong>38</strong><span>Districts served across Tamil Nadu</span></div>
-          <div><strong>50+</strong><span>Projects completed</span></div>
-          <div><strong>8</strong><span>Survey & mapping services</span></div>
-          <div><strong>2 hrs</strong><span>Typical quote response time</span></div>
+          <div><strong>50<em>+</em></strong><span>Projects completed</span></div>
+          <div><strong>8</strong><span>Survey &amp; mapping services</span></div>
+          <div><strong>2<em> hrs</em></strong><span>Typical quote response time</span></div>
         </div>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="areas-title">
-      <div class="section-inner">
-        <p class="eyebrow-label">Service Areas</p>
-        <h2 class="section-heading" id="areas-title">Land Surveyors in Every District of Tamil Nadu</h2>
-        <p class="section-lead">From our base in Kumbakonam we send survey teams across the Cauvery delta, Chennai, the Kongu belt and South Tamil Nadu. Check your district:</p>
-        <AreaChecker />
-        <ul class="chip-list" style="margin-top:22px">
-          {cities.map((d) => <li><a href={`/locations/${d.slug}/`}>Land survey in {d.name}</a></li>)}
-          <li><a href="/locations/">View all 38 districts →</a></li>
-        </ul>
+    <!-- RECENT WORK -->
+    <section class="section section--alt" id="our-work" aria-labelledby="work-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow-label">Work done</p>
+            <h2 class="section-heading" id="work-title">Recent survey work across Tamil Nadu</h2>
+            <p class="section-lead">Real photos from our DGPS, Total Station and field survey sites – 50+ projects delivered for landowners, builders and infrastructure teams.</p>
+          </div>
+          <a class="btn btn--blue" href="/projects/">View all our work <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="work-grid">
+          {work.map((w) => (
+            <figure class="work-item reveal">
+              <img src={w.img} alt={`${w.tag} – ${w.title} by CST Survey`} width="800" height="600" loading="lazy" decoding="async" />
+              <figcaption><small>{w.tag}</small>{w.title}</figcaption>
+            </figure>
+          ))}
+        </div>
       </div>
     </section>
 
-    <section class="section section--alt" aria-labelledby="est-title">
-      <div class="section-inner split">
+    <!-- ABOUT / WHY -->
+    <section class="section" aria-labelledby="why-title">
+      <div class="container split split--even">
+        <div class="media-stack reveal">
+          <img src="/img/team-1000.webp" alt="Cartospatial Technologies survey team in Kumbakonam" width="1000" height="750" loading="lazy" decoding="async" />
+          <div class="media-badge"><strong>5+</strong><span>years of field experience</span></div>
+        </div>
         <div>
-          <p class="eyebrow-label">Plan your budget</p>
-          <h2 class="section-heading" id="est-title">Survey Cost &amp; Time Estimator</h2>
-          <p class="section-lead">Enter your land area in acres, cents, grounds or sq.ft and the type of survey – see the field days, deliverables and turnaround instantly, then send it to us for an exact quote.</p>
-          <p style="margin-top:18px"><a class="btn-cta" href="/survey-cost-estimator/"><i class="fa-solid fa-calculator" aria-hidden="true"></i> Open the Estimator</a></p>
-        </div>
-        <div class="sticky-card">
-          <h3>Quick conversions</h3>
-          <p>1 acre = 100 cents = 43,560 sq.ft<br />1 cent = 435.6 sq.ft<br />1 ground = 2,400 sq.ft<br />1 hectare = 2.471 acres</p>
+          <p class="eyebrow-label">Why CST Survey</p>
+          <h2 class="section-heading" id="why-title">Raw ground, turned into data you can trust</h2>
+          <p class="section-lead" style="margin-bottom:28px">
+            Cartospatial Technologies is a Kumbakonam-based surveying and geospatial company. We combine field experience with
+            modern equipment to deliver accurate, well-documented results for land, infrastructure and environment projects.
+          </p>
+          <div class="feature-grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+            {why.map((w) => (
+              <div class="feature">
+                <span class="ic"><i class={w.icon} aria-hidden="true"></i></span>
+                <h3>{w.title}</h3>
+                <p>{w.text}</p>
+              </div>
+            ))}
+          </div>
+          <p style="margin-top:24px"><a class="link-arrow" href="/about/">More about our company</a></p>
         </div>
       </div>
     </section>
 
-    <Faq faqs={faqs} title="Land Survey Questions Our Clients Ask" />
-    <p style="text-align:center;margin:-30px 0 40px"><a href="/faq/" style="color:#f9a11b;font-weight:700">See all FAQs →</a></p>
+    <!-- PROCESS -->
+    <section class="section section--dark" aria-labelledby="process-title">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <p class="eyebrow-label">How it works</p>
+          <h2 class="section-heading" id="process-title">From enquiry to drawings in four steps</h2>
+        </div>
+        <ol class="steps">
+          {steps.map((s) => <li><h3>{s.title}</h3><p>{s.text}</p></li>)}
+        </ol>
+      </div>
+    </section>
+
+    <!-- SERVICE AREAS -->
+    <section class="section section--alt" aria-labelledby="areas-title">
+      <div class="container split split--even" style="align-items:start">
+        <div>
+          <p class="eyebrow-label">Service areas</p>
+          <h2 class="section-heading" id="areas-title">Land surveyors in every district of Tamil Nadu</h2>
+          <p class="section-lead" style="margin-bottom:24px">From our base in Kumbakonam we send survey teams across the Cauvery delta, Chennai, the Kongu belt and South Tamil Nadu. Check your district:</p>
+          <AreaChecker />
+        </div>
+        <div>
+          <ul class="chip-list">
+            {cities.map((d) => <li><a href={`/locations/${d.slug}/`}><i class="fa-solid fa-location-dot" aria-hidden="true" style="color:var(--blue-500);margin-right:6px"></i>Land survey in {d.name}</a></li>)}
+            <li><a href="/locations/"><strong>View all 38 districts →</strong></a></li>
+          </ul>
+          <div class="card" style="margin-top:24px;flex-direction:row;align-items:center;gap:18px">
+            <i class="fa-solid fa-calculator" aria-hidden="true" style="margin:0;flex:0 0 48px"></i>
+            <div style="flex:1">
+              <h3>Survey cost &amp; time estimator</h3>
+              <p>Enter your area in acres, cents or grounds and see field days, deliverables and turnaround instantly.</p>
+            </div>
+            <a class="btn btn--blue btn--sm" href="/survey-cost-estimator/">Estimate</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section" aria-labelledby="quotes-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow-label">Testimonials</p>
+            <h2 class="section-heading" id="quotes-title">What our clients say</h2>
+          </div>
+          <a class="btn btn--outline" href="/projects/">See our projects <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="quotes">
+          {quotes.map((q) => (
+            <figure class="quote">
+              <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+              <blockquote><p style="margin:0">“{q.text}”</p></blockquote>
+              <figcaption><span class="avatar" aria-hidden="true">{q.name[0]}</span><span>{q.name}<small>{q.role}</small></span></figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <Faq faqs={faqs} title="Land survey questions our clients ask" alt lead="Patta, FMB, accuracy, cost and turnaround – the answers most landowners need before booking.">
+      <p style="margin-top:20px"><a class="link-arrow" href="/faq/">See all FAQs</a></p>
+    </Faq>
     <CtaBand />
   </main>
-
-  <script is:inline src="https://cdn.jsdelivr.net/npm/swiper@11.1.14/swiper-bundle.min.js" defer></script>
-  <script is:inline defer src="/js/home-swiper.js"></script>
 </BaseLayout>

@@ -1,18 +1,162 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import html from '../content/legacy/contact.html?raw';
-import '../styles/contact.css';
 import { breadcrumb } from '../data/schema';
-const body = html.replace('<form id="contact-form" novalidate', '<form id="contact-form" data-lead-form="Contact page" novalidate')
-  .replace('<div class="form-footer">', '<input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />\n<div class="form-footer">')
-  .replace(/(<p class="form-helper-text">)/, '<p class="form-status" role="status" aria-live="polite"></p>\n$1')
-  .replace('class="cta js-open-request-form" href="#contact-form"', 'class="cta" href="#contact-form"');
+import { SITE, waLink } from '../data/site';
+import { SERVICES } from '../data/services';
+import { DISTRICTS } from '../data/districts';
+
+const contactPage = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: 'Contact CST Survey – Cartospatial Technologies',
+  url: `${SITE.url}/contact/`,
+  about: { '@id': `${SITE.url}/#business` },
+};
 ---
 <BaseLayout
-  title="Contact Us | Land Surveyor in Kumbakonam, Tamil Nadu"
+  title="Contact Us | Land Surveyor in Kumbakonam, Tamil Nadu – CST Survey"
   description="Call +91 98435 00114 or WhatsApp us for land surveys anywhere in Tamil Nadu. Office: No. 114, Kammalar Street, Darasuram, Kumbakonam – 612702. Free quotes."
   alternate="/ta/contact/"
-  schema={[breadcrumb([{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact/' }])]}
+  schema={[breadcrumb([{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact/' }]), contactPage]}
 >
-  <Fragment set:html={body} />
+  <section class="hero-band">
+    <h1>Let’s talk about your survey</h1>
+    <p>Call, WhatsApp or send the form – we usually reply within 2 working hours with scope, date and price.</p>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <span aria-current="page">Contact</span></nav>
+  </section>
+
+  <main class="section">
+    <div class="container contact-layout">
+      <aside class="contact-side">
+        <p class="eyebrow-label">Contact details</p>
+        <h2 class="section-heading">Reach the CST Survey team</h2>
+        <p class="section-lead" style="margin-bottom:24px">Surveys in all 38 districts of Tamil Nadu – tell us where your land is and what you need.</p>
+
+        <ul class="contact-list">
+          <li class="only-desktop">
+            <a href={waLink('Hi Cartospatial, I need details about a land survey.')} target="_blank" rel="noopener" data-track="whatsapp">
+              <span class="ic ic--wa"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></span>
+              <span><small>WhatsApp · fastest reply</small><strong>{SITE.phone}</strong></span>
+              <i class="fa-solid fa-arrow-right go" aria-hidden="true"></i>
+            </a>
+          </li>
+          <li class="only-mobile">
+            <a href={`tel:${SITE.phoneRaw}`} data-track="call">
+              <span class="ic"><i class="fa-solid fa-phone" aria-hidden="true"></i></span>
+              <span><small>Call us</small><strong>{SITE.phone}</strong></span>
+              <i class="fa-solid fa-arrow-right go" aria-hidden="true"></i>
+            </a>
+          </li>
+          <li>
+            <a href={`mailto:${SITE.email}`} data-track="email">
+              <span class="ic"><i class="fa-regular fa-envelope" aria-hidden="true"></i></span>
+              <span><small>Email</small><strong>{SITE.email}</strong></span>
+              <i class="fa-solid fa-arrow-right go" aria-hidden="true"></i>
+            </a>
+          </li>
+          <li>
+            <div>
+              <span class="ic"><i class="fa-regular fa-clock" aria-hidden="true"></i></span>
+              <span><small>Office hours</small><strong>{SITE.hoursText}</strong></span>
+            </div>
+          </li>
+          <li>
+            <address>
+              <span class="ic"><i class="fa-solid fa-location-dot" aria-hidden="true"></i></span>
+              <span><small>Office address</small><strong>{SITE.address.street}, {SITE.address.locality} – {SITE.address.postalCode}</strong></span>
+            </address>
+          </li>
+        </ul>
+        <iframe class="map-frame" src={SITE.mapEmbed} title="Map – CST Survey office in Darasuram, Kumbakonam" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </aside>
+
+      <section class="qform" aria-labelledby="quote-title">
+        <header class="qform-head">
+          <h2 id="quote-title">Request a free quote</h2>
+          <p>Share your project details – we’ll reply with scope, date and price.</p>
+          <ul class="qform-badges">
+            <li><i class="fa-solid fa-bolt" aria-hidden="true"></i> Reply in 2 working hours</li>
+            <li><i class="fa-solid fa-indian-rupee-sign" aria-hidden="true"></i> Free, no obligation</li>
+            <li><i class="fa-solid fa-language" aria-hidden="true"></i> Tamil &amp; English</li>
+          </ul>
+        </header>
+
+        <form id="contact-form" class="qform-body" data-lead-form="Contact page" novalidate>
+          <p class="qstep"><span>1</span> Your details</p>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="c-name">Full name <span class="required">*</span></label>
+              <input id="c-name" name="name" type="text" autocomplete="name" placeholder="Your full name" required />
+            </div>
+            <div class="form-group">
+              <label for="c-phone">Phone / WhatsApp <span class="required">*</span></label>
+              <input id="c-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" pattern="[0-9+\s-]{10,15}" placeholder="+91 98XXX XXXXX" required />
+            </div>
+            <div class="form-group">
+              <label for="c-email">Email <span class="opt">optional</span></label>
+              <input id="c-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" />
+            </div>
+            <div class="form-group">
+              <label for="c-location">Site location / district <span class="required">*</span></label>
+              <input id="c-location" name="location" type="text" list="contact-districts" placeholder="e.g. Kumbakonam" required />
+              <datalist id="contact-districts">{DISTRICTS.map((d) => <option value={d.name} />)}</datalist>
+            </div>
+          </div>
+
+          <p class="qstep"><span>2</span> Project details</p>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="c-service">Service needed <span class="required">*</span></label>
+              <select id="c-service" name="service" required>
+                <option value="">Select a service</option>
+                {SERVICES.map((s) => <option value={s.name}>{s.name}</option>)}
+                <option value="Patta / FMB boundary fixing">Patta / FMB boundary fixing</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="c-industry">Sector <span class="opt">optional</span></label>
+              <select id="c-industry" name="industry">
+                <option value="">Select sector</option>
+                <option>Individual landowner</option>
+                <option>Construction &amp; Infrastructure</option>
+                <option>Real Estate &amp; Development</option>
+                <option>Mining &amp; Quarrying</option>
+                <option>Utilities &amp; Telecom</option>
+                <option>Transportation &amp; Highways</option>
+                <option>Solar &amp; Energy</option>
+                <option>Environmental &amp; Conservation</option>
+                <option>Government</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group form-group--full">
+              <label for="c-message">Project description <span class="required">*</span></label>
+              <textarea id="c-message" name="message" rows="4" placeholder="Land area (acres / cents / sq.ft), survey number, purpose and timeline" required></textarea>
+            </div>
+            <div class="form-group form-group--full">
+              <label for="c-budget">Budget <span class="opt">optional</span></label>
+              <input id="c-budget" name="budget" type="text" placeholder="e.g. ₹25,000 – ₹1,00,000" />
+            </div>
+          </div>
+
+          <p class="qstep"><span>3</span> How should we reach you?</p>
+          <div class="seg" role="radiogroup" aria-label="Preferred contact">
+            <label><input type="radio" name="contactPreference" value="WhatsApp" checked /><span><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</span></label>
+            <label><input type="radio" name="contactPreference" value="Phone call" /><span><i class="fa-solid fa-phone" aria-hidden="true"></i> Call</span></label>
+            <label><input type="radio" name="contactPreference" value="Email" /><span><i class="fa-regular fa-envelope" aria-hidden="true"></i> Email</span></label>
+          </div>
+
+          <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <label class="consent" for="c-accept">
+            <input id="c-accept" type="checkbox" required />
+            <span>I agree to Cartospatial Technologies contacting me via phone, WhatsApp or email about my enquiry.</span>
+          </label>
+          <button type="submit" class="btn btn-submit"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Send my request</button>
+          <p class="form-status" role="status" aria-live="polite"></p>
+          <p class="form-note"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Your details are only used to prepare your quote.</p>
+        </form>
+      </section>
+    </div>
+  </main>
 </BaseLayout>

@@ -6,38 +6,56 @@ const SHEETS_WEBHOOK = import.meta.env.PUBLIC_SHEETS_WEBHOOK as string | undefin
 declare global { interface Window { gtag?: (...args: unknown[]) => void } }
 const track = (event: string, params: Record<string, unknown> = {}) => window.gtag?.('event', event, params);
 
-/* ---------- Mobile navigation ---------- */
-const hamburger = document.querySelector<HTMLButtonElement>('.hamburger');
-const panel = document.querySelector<HTMLElement>('.mobile-panel');
-const navOverlay = document.querySelector<HTMLElement>('.panel-overlay');
-const setPanel = (open: boolean) => {
-  panel?.classList.toggle('open', open);
-  navOverlay?.classList.toggle('show', open);
-  hamburger?.setAttribute('aria-expanded', String(open));
+/* ---------- Header: scroll state ---------- */
+const header = document.querySelector<HTMLElement>('.site-header');
+const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+onScroll();
+window.addEventListener('scroll', onScroll, { passive: true });
+
+/* ---------- Mobile drawer ---------- */
+const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
+const drawer = document.querySelector<HTMLElement>('.drawer');
+const drawerOverlay = document.querySelector<HTMLElement>('.drawer-overlay');
+const setDrawer = (open: boolean) => {
+  drawer?.classList.toggle('open', open);
+  drawer?.setAttribute('aria-hidden', String(!open));
+  drawerOverlay?.classList.toggle('show', open);
+  toggle?.setAttribute('aria-expanded', String(open));
   document.body.style.overflow = open ? 'hidden' : '';
+  if (open) drawer?.querySelector<HTMLElement>('.drawer-close')?.focus();
+  else toggle?.focus({ preventScroll: true });
 };
-hamburger?.addEventListener('click', () => setPanel(true));
-document.querySelector('.close-panel')?.addEventListener('click', () => setPanel(false));
-navOverlay?.addEventListener('click', () => setPanel(false));
-panel?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setPanel(false)));
+toggle?.addEventListener('click', () => setDrawer(true));
+document.querySelector('.drawer-close')?.addEventListener('click', () => setDrawer(false));
+drawerOverlay?.addEventListener('click', () => setDrawer(false));
+drawer?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setDrawer(false)));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && drawer?.classList.contains('open')) setDrawer(false); });
 document.querySelectorAll<HTMLButtonElement>('.m-trigger').forEach((trigger) => {
   trigger.addEventListener('click', () => {
     const drop = trigger.closest('.m-dropdown')!;
     const open = !drop.classList.contains('open');
     document.querySelectorAll('.m-dropdown.open').forEach((d) => {
       d.classList.remove('open');
-      d.querySelector('.toggle')!.textContent = '+';
       d.querySelector('.m-trigger')?.setAttribute('aria-expanded', 'false');
     });
     drop.classList.toggle('open', open);
     trigger.setAttribute('aria-expanded', String(open));
-    trigger.querySelector('.toggle')!.textContent = open ? '−' : '+';
   });
 });
+
+/* ---------- Desktop dropdowns: keyboard / touch support ---------- */
+document.querySelectorAll<HTMLButtonElement>('.main-nav .menu-trigger').forEach((btn) => {
+  btn.setAttribute('aria-expanded', 'false');
+  const li = btn.closest('.has-menu')!;
+  li.addEventListener('focusin', () => btn.setAttribute('aria-expanded', 'true'));
+  li.addEventListener('focusout', (e) => { if (!li.contains((e as FocusEvent).relatedTarget as Node)) btn.setAttribute('aria-expanded', 'false'); });
+  li.addEventListener('keydown', (e) => { if ((e as KeyboardEvent).key === 'Escape') { btn.focus(); (document.activeElement as HTMLElement)?.blur(); } });
+});
+
 // Highlight current page in nav
 const here = location.pathname;
-document.querySelectorAll<HTMLAnchorElement>('.nav-links a, .mobile-menu a, .side-menu a').forEach((a) => {
-  if (a.getAttribute('href') === here) a.classList.add('active');
+document.querySelectorAll<HTMLAnchorElement>('.main-nav a, .drawer a, .svc-nav a').forEach((a) => {
+  if (a.getAttribute('href') === here) { a.classList.add('active'); a.setAttribute('aria-current', 'page'); }
 });
 
 /* ---------- Quote modal ---------- */
@@ -135,7 +153,7 @@ if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: re
   const io = new IntersectionObserver((entries) => entries.forEach((en) => {
     if (en.isIntersecting) { en.target.classList.add('is-visible'); io.unobserve(en.target); }
   }), { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-  document.querySelectorAll('.feature-box, .testimonial-card, .reveal').forEach((el) => { el.classList.add('reveal-init'); io.observe(el); });
+  document.querySelectorAll('.reveal, .svc-card, .feature, .quote, .steps li, .project-card').forEach((el) => { el.classList.add('reveal-init'); io.observe(el); });
 }
 
 /* ---------- FAQ accordion analytics ---------- */

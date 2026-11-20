@@ -21,7 +21,7 @@ const relevant = districtNeeds(d).filter((n) => n.services.includes(s.slug));
 const otherCities = DISTRICTS.filter((x) => CITY_SLUGS.includes(x.slug) && x.slug !== d.slug);
 const otherServices = SERVICES.filter((x) => x.core && x.slug !== s.slug);
 const nearby = nearbyDistricts(d, 4);
-const desc = `${s.name} in ${d.name} by Cartospatial Technologies – ${s.short.replace(/\.$/, '')} for land, layouts and projects in ${d.towns.slice(0, 3).join(', ')}. Get a free quote today.`;
+const desc = `${s.name} in ${d.name} – ${s.short} Serving ${d.towns.slice(0, 2).join(', ')} & all of ${d.name} district. Free quote from CST Survey.`;
 const faqs = [
   ...s.faqs.slice(0, 2),
   { q: `Do you provide ${s.name.toLowerCase()} in ${d.name}?`, a: `Yes. We carry out ${s.name.toLowerCase()} across ${d.name} district including ${d.towns.slice(0, 4).join(', ')}. Share your location and area on WhatsApp for a quote.` },
@@ -52,7 +52,7 @@ const faqs = [
   <main class="section">
     <div class="section-inner split">
       <article class="prose">
-        <img src={s.image} alt={`${s.name} in ${d.name}`} width="800" height="420" style="width:100%;height:auto;max-height:360px;object-fit:cover;border-radius:12px;margin-bottom:20px" />
+        <img src={s.image} alt={`${s.name} in ${d.name}`} width="800" height="420" class="main-img" loading="lazy" decoding="async" />
         <h2>{s.name} services for {d.name}</h2>
         <p>{s.description}</p>
         <p>{d.note} Our team brings calibrated equipment to sites across {d.name} – part of {regionText[d.region]}.</p>
@@ -83,7 +83,7 @@ const faqs = [
 
         <h2>{s.name} in other cities</h2>
         <ul class="chip-list">{otherCities.map((x) => <li><a href={`/services/${s.slug}/${x.slug}/`}>{x.name}</a></li>)}</ul>
-        <p style="margin-top:12px">Nearby: {nearby.map((n, i) => <>{i > 0 && ' · '}<a href={`/locations/${n.slug}/`} style="color:#f9a11b">{n.name}</a></>)}</p>
+        <p style="margin-top:12px">Nearby: {nearby.map((n, i) => <>{i > 0 && ' · '}<a href={`/locations/${n.slug}/`}>{n.name}</a></>)}</p>
       </article>
 
       <aside class="sticky-card">
@@ -91,7 +91,7 @@ const faqs = [
         <p>Send your location and land area. We reply within 2 working hours.</p>
         <button class="btn-cta js-open-request-form" type="button" data-service={s.name}>Request a Quote</button>
         <a class="btn-cta btn-wa" href={waLink(`Hi Cartospatial, I need a ${s.name} in ${d.name}.`)} target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp Us</a>
-        <a class="btn-cta" style="background:transparent;border-color:#fff" href="/survey-cost-estimator/"><i class="fa-solid fa-calculator" aria-hidden="true"></i> Estimate Cost</a>
+        <a class="btn btn--ghost" href="/survey-cost-estimator/"><i class="fa-solid fa-calculator" aria-hidden="true"></i> Estimate Cost</a>
       </aside>
     </div>
   </main>

@@ -16,7 +16,7 @@ const sorted = [...DISTRICTS].sort((a, b) => a.name.localeCompare(b.name));
 ---
 <BaseLayout
   title="Land Survey Cost Estimator | Acres, Cents & Ground Calculator"
-  description="Estimate field days, turnaround and deliverables for DGPS, Total Station, drone and LiDAR surveys anywhere in Tamil Nadu. Converts acres, cents, grounds, sq.ft and hectares."
+  description="Estimate field days, turnaround and deliverables for DGPS, Total Station, drone and LiDAR surveys in Tamil Nadu. Converts acres, cents, grounds & sq.ft."
   keywords="land survey cost Tamil Nadu, survey charges per acre, cents to acres calculator, ground to sq ft, DGPS survey cost, drone survey cost"
   schema={[breadcrumb([{ name: 'Home', path: '/' }, { name: 'Survey Cost Estimator', path: '/survey-cost-estimator/' }]), faqPage(faqs)]}
 >
@@ -62,7 +62,7 @@ const sorted = [...DISTRICTS].sort((a, b) => a.name.localeCompare(b.name));
           </div>
         </form>
         <div class="est-result" aria-live="polite">
-          <h2 style="font-size:20px;margin:0 0 10px;color:#071c34">Your estimate</h2>
+          <h2 style="font-size:1.25rem;margin:0 0 14px">Your estimate</h2>
           <dl>
             <dt>Area</dt><dd id="out-area">–</dd>
             <dt>Field work</dt><dd id="out-days">–</dd>
@@ -70,7 +70,7 @@ const sorted = [...DISTRICTS].sort((a, b) => a.name.localeCompare(b.name));
             <dt>Deliverables</dt><dd id="out-deliverables">–</dd>
             {SHOW_PRICES && <><dt>Indicative cost</dt><dd id="out-cost">–</dd></>}
           </dl>
-          <div class="hero-actions" style="justify-content:flex-start">
+          <div class="hero-actions">
             <a id="est-wa" class="btn-cta btn-wa" href="#" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Get exact quote on WhatsApp</a>
             <button class="btn-cta js-open-request-form" type="button" id="est-form-btn">Request by form</button>
           </div>

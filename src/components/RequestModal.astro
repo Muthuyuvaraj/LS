@@ -8,7 +8,10 @@ const ta = Astro.props.lang === 'ta';
   <div class="request-modal__overlay"></div>
   <div class="request-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="requestModalTitle">
     <button class="request-modal__close" type="button" aria-label="Close form">&times;</button>
-    <p id="requestModalTitle" class="request-modal__title">{ta ? 'திட்ட விலைப்புள்ளி கோருங்கள்' : 'Request a Project Quote'}</p>
+    <div class="request-modal__head">
+      <img src="/favicon-192x192.png" alt="" width="40" height="40" loading="lazy" />
+      <p id="requestModalTitle" class="request-modal__title">{ta ? 'திட்ட விலைப்புள்ளி கோருங்கள்' : 'Request a Project Quote'}</p>
+    </div>
     <p class="request-modal__subtitle">
       {ta ? 'உங்கள் நில அளவை தேவைகளைப் பகிருங்கள். தொலைபேசி / WhatsApp மூலம் விரைவில் தொடர்புகொள்வோம்.' : "Share your land surveying or mapping requirements. We'll get back via phone / WhatsApp with a tailored quote."}
     </p>
@@ -45,11 +48,11 @@ const ta = Astro.props.lang === 'ta';
           <datalist id="tn-districts">{DISTRICTS.map((d) => <option value={d.name} />)}</datalist>
         </div>
       </div>
-      <div class="form-group" style="margin-top:10px;">
+      <div class="form-group" style="margin-top:16px;">
         <label for="ro-message">{ta ? 'திட்ட விவரங்கள்' : 'Project Details'} <span class="req-star">*</span></label>
         <textarea id="ro-message" name="message" placeholder={ta ? 'நிலப் பரப்பு (ஏக்கர்/சென்ட்), நோக்கம், காலக்கெடு' : 'Area (acres / cents / sq.ft), purpose and timeline'} required></textarea>
       </div>
-      <div class="form-group" style="margin-top:8px;">
+      <div class="form-group" style="margin-top:16px;">
         <label for="ro-contact-pref">{ta ? 'தொடர்பு முறை' : 'Preferred Contact'}</label>
         <select id="ro-contact-pref" name="contactPreference">
           <option value="WhatsApp">WhatsApp</option>
@@ -62,7 +65,7 @@ const ta = Astro.props.lang === 'ta';
         <input id="ro-accept" type="checkbox" required />
         <label for="ro-accept">{ta ? 'Cartospatial Technologies என்னைத் தொடர்புகொள்ள ஒப்புக்கொள்கிறேன்.' : 'I agree to be contacted by Cartospatial Technologies via phone / WhatsApp / email.'}</label>
       </div>
-      <button type="submit" class="btn-submit">{ta ? 'சமர்ப்பிக்கவும்' : 'Submit Request'}</button>
+      <button type="submit" class="btn btn-submit"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> {ta ? 'சமர்ப்பிக்கவும்' : 'Submit Request'}</button>
       <p class="form-status" role="status" aria-live="polite"></p>
     </form>
   </div>

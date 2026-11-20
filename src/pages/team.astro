@@ -1,15 +1,76 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CtaBand from '../components/CtaBand.astro';
-import html from '../content/legacy/team.html?raw';
-import '../styles/team.css';
 import { breadcrumb } from '../data/schema';
+
+const roles = [
+  { icon: 'fa-solid fa-ruler-combined', title: 'Land surveyors', text: 'Total Station and DGPS specialists for boundary, topographic and construction set-out work.' },
+  { icon: 'fa-solid fa-helicopter', title: 'Drone pilots', text: 'Licensed UAV pilots for aerial mapping, orthophotos, contours and progress monitoring.' },
+  { icon: 'fa-solid fa-layer-group', title: 'LiDAR specialists', text: 'Point-cloud capture and classification for terrain under vegetation, corridors and structures.' },
+  { icon: 'fa-solid fa-globe', title: 'GIS & CAD analysts', text: 'FMB digitisation, GIS mapping and survey-to-CAD drafting with clean, layered outputs.' },
+];
 ---
 <BaseLayout
-  title="Our Team | Surveyors, Drone Pilots & GIS Experts"
-  description="Meet the Cartospatial team – experienced land surveyors, drone pilots, LiDAR specialists and GIS analysts delivering precise surveys across Tamil Nadu."
+  title="Our Team | Surveyors, Drone Pilots & GIS Experts – CST Survey"
+  description="Meet the CST Survey team – experienced land surveyors, drone pilots, LiDAR specialists and GIS analysts delivering precise surveys across Tamil Nadu."
   schema={[breadcrumb([{ name: 'Home', path: '/' }, { name: 'Team', path: '/team/' }])]}
 >
-  <main><Fragment set:html={html} /></main>
+  <section class="hero-band">
+    <h1>Meet our expert team</h1>
+    <p>Dedicated professionals with years of experience in land surveying, geospatial technology and data analysis – delivering precision on every project.</p>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <a href="/about/">About</a> › <span aria-current="page">Team</span></nav>
+  </section>
+
+  <main>
+    <section class="section">
+      <div class="container split split--even">
+        <div class="media-stack">
+          <img src="/img/team-1000.webp" alt="The Cartospatial Technologies (CST Survey) team" width="1000" height="750" loading="eager" decoding="async" style="aspect-ratio:4/3" />
+          <div class="media-badge"><strong>10+</strong><span>expert team members</span></div>
+        </div>
+        <div>
+          <p class="eyebrow-label">Our professionals</p>
+          <h2 class="section-heading">Technical expertise, practical field experience</h2>
+          <p class="section-lead">
+            Our team includes experienced surveyors, licensed drone pilots, GIS analysts, LiDAR specialists and data-processing experts who work
+            together so every project meets the highest standards of precision and quality.
+          </p>
+          <p>
+            With years of combined field experience, we use modern equipment and proven methods to handle projects of every scale – from a single
+            plot survey to large infrastructure mapping – and we take time to understand your exact requirement.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--dark section--tight" aria-label="Team statistics">
+      <div class="container">
+        <div class="stats-strip">
+          <div><strong>5<em>+</em></strong><span>Years experience</span></div>
+          <div><strong>50<em>+</em></strong><span>Projects completed</span></div>
+          <div><strong>10<em>+</em></strong><span>Expert team members</span></div>
+          <div><strong>100<em>%</em></strong><span>Client satisfaction</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt" aria-labelledby="roles-title">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <p class="eyebrow-label">Specialists</p>
+          <h2 class="section-heading" id="roles-title">The people behind every survey</h2>
+        </div>
+        <div class="feature-grid">
+          {roles.map((r) => (
+            <div class="feature">
+              <span class="ic"><i class={r.icon} aria-hidden="true"></i></span>
+              <h3>{r.title}</h3>
+              <p>{r.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
   <CtaBand />
 </BaseLayout>

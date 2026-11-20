@@ -6,8 +6,9 @@ export const localBusiness = () => ({
   '@type': ['LocalBusiness', 'ProfessionalService'],
   '@id': abs('/#business'),
   name: SITE.name,
+  alternateName: SITE.brand,
   url: SITE.url,
-  logo: abs(SITE.logo),
+  logo: { '@type': 'ImageObject', url: abs(SITE.logo), width: 600, height: 444 },
   image: abs(SITE.defaultOgImage),
   telephone: SITE.phoneRaw,
   email: SITE.email,
@@ -57,4 +58,15 @@ export const serviceSchema = (o: { name: string; description: string; path: stri
   image: abs(o.image),
   provider: { '@id': abs('/#business') },
   areaServed: o.area ? { '@type': 'AdministrativeArea', name: `${o.area}, Tamil Nadu` } : { '@type': 'State', name: 'Tamil Nadu' },
+});
+
+export const website = () => ({
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': abs('/#website'),
+  name: SITE.name,
+  alternateName: SITE.brand,
+  url: SITE.url,
+  inLanguage: ['en-IN', 'ta-IN'],
+  publisher: { '@id': abs('/#business') },
 });
