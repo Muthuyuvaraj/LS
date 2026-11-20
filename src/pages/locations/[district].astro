@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Faq from '../../components/Faq.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { DISTRICTS, CITY_SLUGS, nearbyDistricts, type District } from '../../data/districts';
+import { SERVICES } from '../../data/services';
+import { districtNeeds, districtFaqs, recommendedServices, regionText } from '../../data/localContent';
+import { breadcrumb, faqPage, serviceSchema } from '../../data/schema';
+import { waLink } from '../../data/site';
+
+export function getStaticPaths() {
+  return DISTRICTS.map((d) => ({ params: { district: d.slug }, props: { d } }));
+}
+const { d } = Astro.props as { d: District };
+const path = `/locations/${d.slug}/`;
+const needs = districtNeeds(d);
+const recommended = recommendedServices(d);
+const faqs = districtFaqs(d);
+const nearby = nearbyDistricts(d, 6);
+const isCity = CITY_SLUGS.includes(d.slug);
+const svcLink = (slug: string) => {
+  const s = SERVICES.find((x) => x.slug === slug)!;
+  return isCity && s.core ? `/services/${slug}/${d.slug}/` : `/services/${slug}/`;
+};
+const desc = `Land survey in ${d.name} district – DGPS, Total Station, drone & LiDAR surveys in ${d.towns.slice(0, 3).join(', ')} and nearby villages. Patta/FMB boundary checks, layouts & more. Free quote.`;
+---
+<BaseLayout
+  title={`Land Survey in ${d.name} | DGPS & Drone Surveyors`}
+  description={desc}
+  keywords={`land survey ${d.name}, land surveyor in ${d.name}, DGPS survey ${d.name}, drone survey ${d.name}, total station survey ${d.name}, ${d.towns.map((t) => `surveyor ${t}`).join(', ')}, ${d.ta} நில அளவை`}
+  schema={[
+    serviceSchema({ name: `Land Survey in ${d.name}`, description: desc, path, image: '/img/og-image.jpg', area: d.name }),
+    breadcrumb([{ name: 'Home', path: '/' }, { name: 'Locations', path: '/locations/' }, { name: d.name, path }]),
+    faqPage(faqs),
+  ]}
+>
+  <section class="hero-band">
+    <h1>Land Survey Services in {d.name}</h1>
+    <p lang="ta" class="lead-ta">{d.ta} மாவட்டத்தில் நில அளவை சேவைகள்</p>
+    <p>DGPS, Total Station, drone and LiDAR surveys across {d.name} district – {d.towns.join(', ')} and surrounding villages.</p>
+    <div class="hero-actions">
+      <button class="btn-cta js-open-request-form" type="button">Get a Free Quote</button>
+      <a class="btn-cta btn-wa" href={waLink(`Hi Cartospatial, I need a land survey in ${d.name} district.`)} target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</a>
+    </div>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <a href="/locations/">Locations</a> › <span aria-current="page">{d.name}</span></nav>
+  </section>
+
+  <main class="section">
+    <div class="section-inner split">
+      <article class="prose">
+        <h2>Trusted land surveyors for {d.name}</h2>
+        <p>{d.note}</p>
+        <p>
+          {d.name} is part of {regionText[d.region]}. Cartospatial Technologies sends experienced survey teams with
+          Total Station, DGPS (RTK GNSS) and drone equipment to {d.hq} and every taluk of the district, delivering signed
+          drawings, CAD files and reports you can use with the taluk office, bank, architect or contractor.
+        </p>
+
+        <h2>Common survey needs in {d.name}</h2>
+        {needs.map((n) => (
+          <>
+            <h3>{n.title}</h3>
+            <p>{n.text}</p>
+          </>
+        ))}
+
+        <h2>Recommended services in {d.name}</h2>
+        <div class="card-grid" style="margin-bottom:22px">
+          {recommended.map((s) => (
+            <a class="card" href={svcLink(s.slug)}>
+              <i class={s.icon} aria-hidden="true"></i>
+              <h3>{s.name} in {d.name}</h3>
+              <p>{s.short}</p>
+            </a>
+          ))}
+        </div>
+
+        <h2>Areas we cover in {d.name}</h2>
+        <ul class="chip-list">{d.towns.map((t) => <li>{t}</li>)}</ul>
+        <p style="margin-top:14px">…and all villages and panchayats in the district. Not sure if we cover your village? Just ask on WhatsApp.</p>
+
+        <h2>Also serving nearby districts</h2>
+        <ul class="chip-list">{nearby.map((n) => <li><a href={`/locations/${n.slug}/`}>Land survey in {n.name}</a></li>)}</ul>
+      </article>
+
+      <aside class="sticky-card">
+        <h2>Survey in {d.name}?</h2>
+        <p>Tell us your village, survey number and land area. We’ll confirm the scope and cost – usually within 2 working hours.</p>
+        <button class="btn-cta js-open-request-form" type="button">Request a Quote</button>
+        <a class="btn-cta btn-wa" href={waLink(`Hi Cartospatial, I need a land survey in ${d.name} district.`)} target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp Us</a>
+        <a class="btn btn--ghost" href="/survey-cost-estimator/"><i class="fa-solid fa-calculator" aria-hidden="true"></i> Estimate Cost</a>
+        <p style="margin-top:16px;font-size:13px">All services: {SERVICES.map((s, i) => <>{i > 0 && ' · '}<a href={svcLink(s.slug)}>{s.name}</a></>)}</p>
+      </aside>
+    </div>
+  </main>
+
+  <Faq faqs={faqs} title={`Land Survey in ${d.name} – FAQs`} alt />
+  <CtaBand title={`Book your survey in ${d.name}`} />
+</BaseLayout>

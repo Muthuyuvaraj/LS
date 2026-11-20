@@ -1,0 +1,71 @@
+---
+import { SITE } from '../data/site';
+import { SERVICES } from '../data/services';
+import { DISTRICTS, CITY_SLUGS } from '../data/districts';
+interface Props { lang: 'en' | 'ta' }
+const ta = Astro.props.lang === 'ta';
+const cities = DISTRICTS.filter((d) => CITY_SLUGS.includes(d.slug));
+const socials = Object.entries(SITE.social).filter(([, url]) => url);
+const icons: Record<string, string> = { instagram: 'fa-instagram', facebook: 'fa-facebook-f', linkedin: 'fa-linkedin-in', youtube: 'fa-youtube', googleBusiness: 'fa-google' };
+---
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <a class="footer-logo" href={ta ? '/ta/' : '/'} aria-label={`${SITE.brand} home`}>
+        <img src={SITE.logoSmall} alt={`${SITE.brand} – ${SITE.name}`} width="300" height="222" loading="lazy" decoding="async" />
+      </a>
+      <p>
+        {ta
+          ? 'தமிழ்நாட்டின் அனைத்து 38 மாவட்டங்களிலும் டோட்டல் ஸ்டேஷன், DGPS, ட்ரோன், லிடார் மற்றும் GIS மூலம் துல்லியமான நில அளவை சேவைகள்.'
+          : 'Precision land surveying and geospatial mapping across all 38 districts of Tamil Nadu – Total Station, DGPS, drone, LiDAR and GIS, from our office in Kumbakonam.'}
+      </p>
+      <button class="btn btn--sm js-open-request-form" type="button">{ta ? 'விலைப்புள்ளி பெற' : 'Request a Quote'}</button>
+      {socials.length > 0 && (
+        <div class="footer-social">
+          {socials.map(([k, url]) => <a href={url} target="_blank" rel="noopener noreferrer" aria-label={k}><i class={`fa-brands ${icons[k]}`} aria-hidden="true"></i></a>)}
+        </div>
+      )}
+    </div>
+
+    <nav aria-label="Services">
+      <p class="footer-heading">{ta ? 'சேவைகள்' : 'Services'}</p>
+      <ul>
+        {SERVICES.map((s) => <li><a href={ta ? `/ta/services/${s.slug}/` : `/services/${s.slug}/`}>{ta ? s.ta.name : s.name}</a></li>)}
+      </ul>
+    </nav>
+
+    <nav aria-label="Service areas">
+      <p class="footer-heading">{ta ? 'சேவைப் பகுதிகள்' : 'Service Areas'}</p>
+      <ul>
+        {cities.map((d) => <li><a href={`/locations/${d.slug}/`}>{ta ? `${d.ta} நில அளவை` : `Land Survey in ${d.name}`}</a></li>)}
+        <li><a href="/locations/"><strong>{ta ? 'அனைத்து 38 மாவட்டங்கள் →' : 'All 38 districts →'}</strong></a></li>
+      </ul>
+    </nav>
+
+    <div>
+      <p class="footer-heading">{ta ? 'தொடர்பு கொள்ள' : 'Get in touch'}</p>
+      <address style="font-style:normal">
+        <ul class="footer-contact">
+          <li><i class="fa-solid fa-location-dot" aria-hidden="true"></i><span>{SITE.address.street},<br />{SITE.address.locality}, {SITE.address.region} – {SITE.address.postalCode}</span></li>
+          <li><i class="fa-solid fa-phone" aria-hidden="true"></i><a href={`tel:${SITE.phoneRaw}`} data-track="call">{SITE.phone}</a></li>
+          <li><i class="fa-solid fa-envelope" aria-hidden="true"></i><a href={`mailto:${SITE.email}`} data-track="email">{SITE.email}</a></li>
+          <li><i class="fa-regular fa-clock" aria-hidden="true"></i><span>{SITE.hoursText}</span></li>
+        </ul>
+      </address>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container">
+      <p style="margin:0">© {new Date().getFullYear()} {SITE.name} ({SITE.brand}). Designed &amp; developed by <a href="https://www.linkedin.com/in/muthu-yuvaraj-m/" target="_blank" rel="noopener noreferrer" class="dev-credit">Muthu Yuvaraj</a></p>
+      <ul>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/projects/">Projects</a></li>
+        <li><a href="/survey-cost-estimator/">Cost Estimator</a></li>
+        <li><a href="/faq/">FAQ</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="/sitemap-index.xml">Sitemap</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>

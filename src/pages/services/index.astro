@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { SERVICES } from '../../data/services';
+import { breadcrumb } from '../../data/schema';
+import { abs } from '../../data/site';
+
+const itemList = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Land survey services in Tamil Nadu',
+  itemListElement: SERVICES.map((s, i) => ({ '@type': 'ListItem', position: i + 1, name: s.name, url: abs(`/services/${s.slug}/`) })),
+};
+---
+<BaseLayout
+  title="Land Survey Services in Tamil Nadu | DGPS, Drone, LiDAR & GIS"
+  description="All CST Survey services in one place – Total Station, DGPS, drone, photogrammetry, LiDAR, bathymetric, GIS mapping and data processing across Tamil Nadu."
+  schema={[breadcrumb([{ name: 'Home', path: '/' }, { name: 'Services', path: '/services/' }]), itemList]}
+>
+  <section class="hero-band">
+    <h1>Land survey &amp; mapping services</h1>
+    <p>Eight specialised survey services, delivered by one team across all 38 districts of Tamil Nadu.</p>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <span aria-current="page">Services</span></nav>
+  </section>
+  <main class="section">
+    <div class="container svc-grid">
+      {SERVICES.map((s) => (
+        <a class="svc-card" href={`/services/${s.slug}/`}>
+          <div class="svc-media">
+            <div class="svc-img"><img src={s.image} alt={`${s.name} in Tamil Nadu`} width="400" height="250" loading="lazy" decoding="async" /></div>
+            <span class="svc-icon"><i class={s.icon} aria-hidden="true"></i></span>
+          </div>
+          <div class="svc-body">
+            <h2 style="font-size:1.12rem;margin:0">{s.name}</h2>
+            <p>{s.short}</p>
+            <span class="link-arrow">Learn more</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </main>
+  <CtaBand />
+</BaseLayout>

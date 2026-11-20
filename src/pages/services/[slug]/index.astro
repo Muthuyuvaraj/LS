@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Faq from '../../../components/Faq.astro';
+import CtaBand from '../../../components/CtaBand.astro';
+import { SERVICES, type Service } from '../../../data/services';
+import { DISTRICTS, CITY_SLUGS } from '../../../data/districts';
+import { breadcrumb, faqPage, serviceSchema } from '../../../data/schema';
+import { waLink } from '../../../data/site';
+
+export function getStaticPaths() {
+  return SERVICES.map((s) => ({ params: { slug: s.slug }, props: { s } }));
+}
+const { s } = Astro.props as { s: Service };
+const files = import.meta.glob('../../../content/services/*.html', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+// Turn the first (label-style) <h2> into an eyebrow so each page keeps a clean H1 → H2 outline.
+const body = files[`../../../content/services/${s.slug}.html`]
+  .replace(/<h2>([^<]+)<\/h2>/, '<p class="eyebrow-label">$1</p>')
+  .replace(/alt="([^"]+)" class="main-img"/, 'alt="$1 in Tamil Nadu by CST Survey" class="main-img" width="1200" height="600"');
+const i = SERVICES.indexOf(s);
+const prev = SERVICES[(i - 1 + SERVICES.length) % SERVICES.length];
+const next = SERVICES[(i + 1) % SERVICES.length];
+const path = `/services/${s.slug}/`;
+const cities = DISTRICTS.filter((d) => CITY_SLUGS.includes(d.slug));
+---
+<BaseLayout
+  title={s.title}
+  description={s.description}
+  keywords={s.keywords}
+  image={s.image}
+  alternate={`/ta/services/${s.slug}/`}
+  schema={[
+    serviceSchema({ name: s.name, description: s.description, path, image: s.image }),
+    breadcrumb([{ name: 'Home', path: '/' }, { name: 'Services', path: '/services/' }, { name: s.name, path }]),
+    faqPage(s.faqs),
+  ]}
+>
+  <section class="hero-band">
+    <h1>{s.name} in Tamil Nadu</h1>
+    <p>{s.description}</p>
+    <div class="hero-actions">
+      <button class="btn js-open-request-form" type="button" data-service={s.name}><i class="fa-solid fa-file-pen" aria-hidden="true"></i> Get a Free Quote</button>
+      <a class="btn btn--wa" href={waLink(`Hi Cartospatial, I need a ${s.name}.`)} target="_blank" rel="noopener" data-track="whatsapp"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</a>
+    </div>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <a href="/services/">Services</a> › <span aria-current="page">{s.name}</span></nav>
+  </section>
+
+  <main class="section">
+    <div class="container svc-layout">
+      <aside class="svc-aside">
+        <nav class="svc-nav" aria-label="Services">
+          <p>All services</p>
+          <ul>
+            {SERVICES.map((x) => <li><a href={`/services/${x.slug}/`} class:list={{ active: x.slug === s.slug }}><i class={x.icon} aria-hidden="true"></i>{x.name}</a></li>)}
+          </ul>
+        </nav>
+        <div class="sticky-card">
+          <h2>Get a {s.name} quote</h2>
+          <p>Share your location and area – we reply within 2 working hours.</p>
+          <button class="btn js-open-request-form" type="button" data-service={s.name}>Request a Quote</button>
+          <a class="btn btn--wa" href={waLink(`Hi Cartospatial, I need a ${s.name}.`)} target="_blank" rel="noopener" data-track="whatsapp"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</a>
+        </div>
+      </aside>
+
+      <article class="prose">
+        <Fragment set:html={body} />
+
+        <h2>{s.name} across all 38 districts of Tamil Nadu</h2>
+        <p class="desc">
+          Our survey teams travel from Kumbakonam to every part of the state – from Chennai and the northern industrial corridor to
+          the Kongu belt, the Cauvery delta and South Tamil Nadu. Popular {s.name.toLowerCase()} locations:
+        </p>
+        <ul class="chip-list">
+          {cities.map((d) => (
+            <li><a href={s.core ? `/services/${s.slug}/${d.slug}/` : `/locations/${d.slug}/`}>{s.name} in {d.name}</a></li>
+          ))}
+          <li><a href="/locations/">All districts →</a></li>
+        </ul>
+
+        <nav class="pager" aria-label="More services">
+          <a href={`/services/${prev.slug}/`}><small>← Previous</small><strong>{prev.name}</strong></a>
+          <a href={`/services/${next.slug}/`}><small>Next →</small><strong>{next.name}</strong></a>
+        </nav>
+      </article>
+    </div>
+  </main>
+
+  <Faq faqs={s.faqs} title={`${s.name} – FAQs`} alt />
+  <CtaBand service={s.name} />
+</BaseLayout>

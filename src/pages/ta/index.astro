@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Faq from '../../components/Faq.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { SERVICES } from '../../data/services';
+import { DISTRICTS, CITY_SLUGS } from '../../data/districts';
+import { TA_FAQS } from '../../data/faqs';
+import { faqPage } from '../../data/schema';
+import { waLink } from '../../data/site';
+const cities = DISTRICTS.filter((d) => CITY_SLUGS.includes(d.slug));
+---
+<BaseLayout
+  lang="ta"
+  alternate="/"
+  title="தமிழ்நாடு நில அளவை நிறுவனம் | DGPS, ட்ரோன் அளவை"
+  description="Cartospatial Technologies – தமிழ்நாட்டின் 38 மாவட்டங்களிலும் நம்பகமான நில அளவையாளர்கள். பட்டா / FMB எல்லை சரிபார்ப்பு, DGPS, டோட்டல் ஸ்டேஷன், ட்ரோன், லிடார் அளவை. இலவச விலைப்புள்ளி."
+  keywords="நில அளவை, நில அளவையாளர், DGPS அளவை, ட்ரோன் சர்வே, பட்டா நில அளவை, FMB எல்லை, நில அளவை கும்பகோணம், land survey Tamil"
+  schema={[faqPage(TA_FAQS)]}
+>
+  <section class="hero-band">
+    <h1>துல்லியமான நில அளவை – தமிழ்நாடு முழுவதும்</h1>
+    <p>டோட்டல் ஸ்டேஷன், DGPS, ட்ரோன் மற்றும் லிடார் தொழில்நுட்பத்துடன் அனைத்து 38 மாவட்டங்களிலும் சென்டிமீட்டர் துல்லிய அளவை சேவைகள்.</p>
+    <div class="hero-actions">
+      <button class="btn-cta js-open-request-form" type="button">இலவச விலைப்புள்ளி</button>
+      <a class="btn-cta btn-wa" href={waLink('வணக்கம் Cartospatial, எனக்கு நில அளவை பற்றி விவரம் வேண்டும்.')} target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</a>
+    </div>
+  </section>
+
+  <main>
+    <section class="section">
+      <div class="section-inner">
+        <p class="eyebrow-label">ஏன் Cartospatial?</p>
+        <h2 class="section-heading">நம்பிக்கை, துல்லியம், விரைவான சேவை</h2>
+        <div class="card-grid">
+          <div class="card"><i class="fa-solid fa-crosshairs" aria-hidden="true"></i><h3>சென்டிமீட்டர் துல்லியம்</h3><p>அளவீடு செய்யப்பட்ட DGPS மற்றும் டோட்டல் ஸ்டேஷன் கருவிகள்.</p></div>
+          <div class="card"><i class="fa-solid fa-file-signature" aria-hidden="true"></i><h3>பட்டா / FMB சரிபார்ப்பு</h3><p>உங்கள் நிலத்தை FMB வரைபடத்துடன் ஒப்பிட்டு உண்மையான எல்லையைக் காட்டுவோம்.</p></div>
+          <div class="card"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i><h3>38 மாவட்டங்கள்</h3><p>கும்பகோணத்திலிருந்து தமிழ்நாடு முழுவதும் சேவை.</p></div>
+          <div class="card"><i class="fa-solid fa-bolt" aria-hidden="true"></i><h3>விரைவான பதில்</h3><p>பொதுவாக 2 வேலை நேரத்திற்குள் விலைப்புள்ளி.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt">
+      <div class="section-inner">
+        <p class="eyebrow-label">எங்கள் சேவைகள்</p>
+        <h2 class="section-heading">நில அளவை மற்றும் வரைபட சேவைகள்</h2>
+        <div class="card-grid">
+          {SERVICES.map((s) => (
+            <a class="card" href={`/ta/services/${s.slug}/`}>
+              <i class={s.icon} aria-hidden="true"></i>
+              <h3>{s.ta.name}</h3>
+              <p>{s.ta.summary}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-inner">
+        <p class="eyebrow-label">சேவைப் பகுதிகள்</p>
+        <h2 class="section-heading">தமிழ்நாட்டின் அனைத்து மாவட்டங்களிலும்</h2>
+        <ul class="chip-list">
+          {cities.map((d) => <li><a href={`/locations/${d.slug}/`}>{d.ta} நில அளவை</a></li>)}
+          <li><a href="/locations/">அனைத்து 38 மாவட்டங்கள் →</a></li>
+        </ul>
+        <p style="margin-top:20px"><a class="btn-cta" href="/survey-cost-estimator/"><i class="fa-solid fa-calculator" aria-hidden="true"></i> அளவை செலவு மதிப்பீடு</a></p>
+      </div>
+    </section>
+
+    <Faq faqs={TA_FAQS} title="அடிக்கடி கேட்கப்படும் கேள்விகள்" eyebrow="கேள்வி – பதில்" alt />
+    <CtaBand lang="ta" />
+  </main>
+</BaseLayout>

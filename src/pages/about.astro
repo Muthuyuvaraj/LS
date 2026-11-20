@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { breadcrumb } from '../data/schema';
+import { SERVICES } from '../data/services';
+
+const values = [
+  { icon: 'fa-solid fa-compass-drafting', title: 'Vision & mission', text: 'Redefine surveying and geospatial excellence through innovation, precision and reliability – empowering infrastructure with accurate, data-driven spatial intelligence.' },
+  { icon: 'fa-solid fa-users', title: 'Client satisfaction', text: 'Every project begins with our clients’ trust. We focus on accuracy, transparency and timely delivery, built on clear communication.' },
+  { icon: 'fa-solid fa-diagram-project', title: 'Project planning', text: 'Smart planning and precise data are the foundation of success. We tailor workflows so projects stay on time and on budget.' },
+  { icon: 'fa-solid fa-toolbox', title: 'End-to-end solutions', text: 'From drone and DGPS to LiDAR and GIS, one team handles capture, processing and delivery for infrastructure, environment and planning.' },
+];
+---
+<BaseLayout
+  title="About CST Survey | Land Survey Company in Kumbakonam"
+  description="CST Survey (Cartospatial Technologies) is a Kumbakonam land survey company serving all of Tamil Nadu – Total Station, DGPS, drone, LiDAR and GIS."
+  schema={[breadcrumb([{ name: 'Home', path: '/' }, { name: 'About', path: '/about/' }])]}
+>
+  <section class="hero-band">
+    <h1>Smarter, sharper, more precise mapping</h1>
+    <p>Precision mapping · LiDAR · Drone photogrammetry · DGPS · GIS – from our office in Darasuram, Kumbakonam to every district of Tamil Nadu.</p>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <span aria-current="page">About Us</span></nav>
+  </section>
+
+  <main>
+    <section class="section">
+      <div class="container split split--even">
+        <div>
+          <p class="eyebrow-label">About us</p>
+          <h2 class="section-heading">We turn raw geography into actionable intelligence</h2>
+          <p class="section-lead">
+            At <strong>Cartospatial Technologies</strong> – <strong>CST Survey</strong> – we use topographic surveying, LiDAR, drone photogrammetry and DGPS
+            workflows to deliver accurate, timely and future-ready geospatial products that empower infrastructure, environment and development projects.
+          </p>
+          <p>
+            Whether for infrastructure, land development, environment or smart city initiatives, our mission is to make every project stronger and
+            smarter – grounded in rigorous data quality, clear reporting and efficient delivery.
+          </p>
+          <ul class="check-list">
+            <li>Signed PDF drawings plus AutoCAD (DWG/DXF), GIS and 3D deliverables</li>
+            <li>Coordinates in WGS84 / UTM that match Google Earth, FMB overlays and GIS</li>
+            <li>Results explained clearly in Tamil or English</li>
+          </ul>
+          <div class="hero-actions" style="margin-top:28px">
+            <button class="btn js-open-request-form" type="button">Get a Free Quote</button>
+            <a class="btn btn--outline" href="/team/">Meet the team</a>
+          </div>
+        </div>
+        <div class="media-stack">
+          <img src="/img/hero-surveyor-900.webp" alt="CST Survey surveyor using a Total Station on a site in Tamil Nadu" width="900" height="1200" loading="lazy" decoding="async" />
+          <div class="media-badge"><strong>38</strong><span>districts served</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--dark section--tight" aria-label="Company statistics">
+      <div class="container">
+        <div class="stats-strip">
+          <div><strong>50<em>+</em></strong><span>Happy clients</span></div>
+          <div><strong>50<em>+</em></strong><span>Projects delivered</span></div>
+          <div><strong>10<em>+</em></strong><span>Team members</span></div>
+          <div><strong>8</strong><span>Survey &amp; mapping services</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt" aria-labelledby="values-title">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <p class="eyebrow-label">What drives us</p>
+          <h2 class="section-heading" id="values-title">How we work with every client</h2>
+        </div>
+        <div class="feature-grid">
+          {values.map((v) => (
+            <div class="feature">
+              <span class="ic"><i class={v.icon} aria-hidden="true"></i></span>
+              <h3>{v.title}</h3>
+              <p>{v.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="capabilities-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow-label">Capabilities</p>
+            <h2 class="section-heading" id="capabilities-title">Everything you need, under one roof</h2>
+          </div>
+          <a class="btn btn--outline" href="/services/">All services <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="card-grid">
+          {SERVICES.map((s) => (
+            <a class="card" href={`/services/${s.slug}/`}>
+              <i class={s.icon} aria-hidden="true"></i>
+              <h3>{s.name}</h3>
+              <p>{s.short}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+  <CtaBand />
+</BaseLayout>

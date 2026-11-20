@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import AreaChecker from '../../components/AreaChecker.astro';
+import TnMap from '../../components/TnMap.astro';
+import { DISTRICTS, REGIONS } from '../../data/districts';
+import { regionText } from '../../data/localContent';
+import { breadcrumb } from '../../data/schema';
+---
+<BaseLayout
+  title="Land Survey Services in All 38 Districts of Tamil Nadu | Cartospatial"
+  description="Find land surveyors near you – Cartospatial provides DGPS, Total Station, drone and LiDAR surveys in all 38 Tamil Nadu districts from Chennai to Kanniyakumari."
+  keywords="land surveyor near me Tamil Nadu, land survey districts Tamil Nadu, surveyor Chennai, surveyor Coimbatore, surveyor Madurai, surveyor Trichy, surveyor Thanjavur"
+  schema={[breadcrumb([{ name: 'Home', path: '/' }, { name: 'Locations', path: '/locations/' }])]}
+>
+  <section class="hero-band">
+    <h1>Land Surveyors Across Tamil Nadu</h1>
+    <p>One trusted survey team for all 38 districts – headquartered in Kumbakonam, working from Chennai to Kanniyakumari.</p>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <span aria-current="page">Locations</span></nav>
+  </section>
+  <main>
+    <section class="section">
+      <div class="section-inner">
+        <h2 class="section-heading">Is your district covered?</h2>
+        <AreaChecker />
+        <div style="margin-top:28px"><TnMap /></div>
+      </div>
+    </section>
+    <section class="section section--alt">
+      <div class="section-inner">
+        {REGIONS.map((r) => (
+          <div>
+            <h2 class="region-title">{r === 'Delta' ? 'Cauvery Delta' : `${r} Tamil Nadu`}</h2>
+            <p class="section-lead" style="margin-bottom:14px">Serving {regionText[r]}.</p>
+            <div class="card-grid">
+              {DISTRICTS.filter((d) => d.region === r).map((d) => (
+                <a class="card" href={`/locations/${d.slug}/`}>
+                  <h3>Land Survey in {d.name}</h3>
+                  <span class="card-ta" lang="ta">{d.ta}</span>
+                  <p>{d.towns.slice(0, 4).join(' · ')}</p>
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  </main>
+  <CtaBand />
+</BaseLayout>

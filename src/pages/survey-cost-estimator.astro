@@ -1,0 +1,124 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { RATES, UNITS, TERRAIN, SHOW_PRICES } from '../data/pricing';
+import { DISTRICTS } from '../data/districts';
+import { breadcrumb, faqPage } from '../data/schema';
+import { SITE } from '../data/site';
+
+const faqs = [
+  { q: 'How do I convert cents to acres or square feet?', a: '1 acre = 100 cents = 43,560 sq.ft. So 1 cent = 435.6 sq.ft, and 1 ground (common in Chennai) = 2,400 sq.ft ≈ 5.5 cents.' },
+  { q: 'What affects the cost of a land survey?', a: 'Land area, type of survey, terrain and vegetation, required deliverables (simple boundary vs. full topographic or 3D), urgency and travel distance to the site.' },
+  { q: 'Is the estimate final?', a: 'No – it is an indicative guide. We confirm the exact cost after understanding your documents, site access and deliverables, usually within 2 working hours.' },
+];
+const sorted = [...DISTRICTS].sort((a, b) => a.name.localeCompare(b.name));
+---
+<BaseLayout
+  title="Land Survey Cost Estimator | Acres, Cents & Ground Calculator"
+  description="Estimate field days, turnaround and deliverables for DGPS, Total Station, drone and LiDAR surveys in Tamil Nadu. Converts acres, cents, grounds & sq.ft."
+  keywords="land survey cost Tamil Nadu, survey charges per acre, cents to acres calculator, ground to sq ft, DGPS survey cost, drone survey cost"
+  schema={[breadcrumb([{ name: 'Home', path: '/' }, { name: 'Survey Cost Estimator', path: '/survey-cost-estimator/' }]), faqPage(faqs)]}
+>
+  <section class="hero-band">
+    <h1>Land Survey Cost &amp; Time Estimator</h1>
+    <p>Get an instant estimate of field days, delivery time and deliverables for your land – then send it to us for an exact quote.</p>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <span aria-current="page">Cost Estimator</span></nav>
+  </section>
+
+  <main class="section">
+    <div class="section-inner split">
+      <div class="estimator">
+        <form id="estimator" novalidate>
+          <div class="grid">
+            <div>
+              <label for="est-service">Type of survey</label>
+              <select id="est-service">
+                {Object.entries(RATES).map(([k, r]) => <option value={k}>{r.service}</option>)}
+              </select>
+            </div>
+            <div>
+              <label for="est-area">Land area</label>
+              <input id="est-area" type="number" min="0" step="any" inputmode="decimal" value="1" />
+            </div>
+            <div>
+              <label for="est-unit">Unit</label>
+              <select id="est-unit">
+                {Object.entries(UNITS).map(([k, u]) => <option value={k}>{u.label}</option>)}
+              </select>
+            </div>
+            <div>
+              <label for="est-terrain">Site condition</label>
+              <select id="est-terrain">
+                {Object.entries(TERRAIN).map(([k, t]) => <option value={k}>{t.label}</option>)}
+              </select>
+            </div>
+            <div>
+              <label for="est-district">District</label>
+              <select id="est-district">
+                {sorted.map((d) => <option value={d.name} selected={d.slug === 'thanjavur'}>{d.name}</option>)}
+              </select>
+            </div>
+          </div>
+        </form>
+        <div class="est-result" aria-live="polite">
+          <h2 style="font-size:1.25rem;margin:0 0 14px">Your estimate</h2>
+          <dl>
+            <dt>Area</dt><dd id="out-area">–</dd>
+            <dt>Field work</dt><dd id="out-days">–</dd>
+            <dt>Delivery</dt><dd id="out-delivery">–</dd>
+            <dt>Deliverables</dt><dd id="out-deliverables">–</dd>
+            {SHOW_PRICES && <><dt>Indicative cost</dt><dd id="out-cost">–</dd></>}
+          </dl>
+          <div class="hero-actions">
+            <a id="est-wa" class="btn-cta btn-wa" href="#" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Get exact quote on WhatsApp</a>
+            <button class="btn-cta js-open-request-form" type="button" id="est-form-btn">Request by form</button>
+          </div>
+          <p class="est-note">Estimates are indicative. The final scope and cost are confirmed after reviewing your documents and site access.</p>
+        </div>
+      </div>
+      <aside class="sticky-card">
+        <h2>Area conversions</h2>
+        <p>1 acre = 100 cents = 43,560 sq.ft<br />1 cent = 435.6 sq.ft<br />1 ground = 2,400 sq.ft ≈ 5.5 cents<br />1 hectare = 2.471 acres = 247 cents</p>
+        <h3 style="margin-top:18px">Keep ready</h3>
+        <p>Patta / chitta, FMB sketch, survey &amp; sub-division number, and a Google Maps pin of the land.</p>
+      </aside>
+    </div>
+  </main>
+
+  <Faq faqs={faqs} title="Estimator FAQs" alt />
+  <CtaBand />
+
+  <script is:inline define:vars={{ RATES, UNITS, TERRAIN, SHOW_PRICES, WA: SITE.whatsapp }}>
+    (function () {
+      var $ = function (id) { return document.getElementById(id); };
+      var fmt = function (n) { return '₹' + Math.round(n).toLocaleString('en-IN'); };
+      function calc() {
+        var r = RATES[$('est-service').value];
+        var area = parseFloat($('est-area').value) || 0;
+        var acres = area * UNITS[$('est-unit').value].toAcre;
+        var factor = TERRAIN[$('est-terrain').value].factor;
+        var days = Math.max(0.5, Math.ceil((acres * factor / r.acresPerDay) * 2) / 2);
+        $('out-area').textContent = acres.toFixed(acres < 1 ? 3 : 2) + ' acres (' + Math.round(acres * 100).toLocaleString('en-IN') + ' cents · ' + Math.round(acres * 43560).toLocaleString('en-IN') + ' sq.ft)';
+        $('out-days').textContent = days <= 0.5 ? 'About half a day on site' : days + ' field day' + (days > 1 ? 's' : '');
+        $('out-delivery').textContent = r.deliveryDays[0] + '–' + r.deliveryDays[1] + ' working days after field work';
+        $('out-deliverables').textContent = r.deliverables;
+        var costTxt = '';
+        if (SHOW_PRICES && $('out-cost')) {
+          var lo = Math.max(r.minimum, acres * r.perAcre[0] * factor), hi = Math.max(r.minimum, acres * r.perAcre[1] * factor);
+          costTxt = fmt(lo) + ' – ' + fmt(hi);
+          $('out-cost').textContent = costTxt + ' (excl. GST & travel)';
+        }
+        var msg = 'Hi Cartospatial, I used your cost estimator.\n\n*Survey:* ' + r.service + '\n*Area:* ' + area + ' ' + UNITS[$('est-unit').value].label + ' (' + acres.toFixed(2) + ' acres)\n*Site:* ' + TERRAIN[$('est-terrain').value].label + '\n*District:* ' + $('est-district').value + (costTxt ? '\n*Estimate shown:* ' + costTxt : '') + '\n\nPlease share the exact quote.';
+        $('est-wa').href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(msg);
+        $('est-form-btn').dataset.service = r.service;
+      }
+      document.getElementById('estimator').addEventListener('input', calc);
+      document.getElementById('estimator').addEventListener('change', function () {
+        calc();
+        if (window.gtag) gtag('event', 'use_estimator', { service: $('est-service').value, district: $('est-district').value });
+      });
+      calc();
+    })();
+  </script>
+</BaseLayout>

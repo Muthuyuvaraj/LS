@@ -1,0 +1,28 @@
+---
+import { DISTRICTS } from '../data/districts';
+import { waLink } from '../data/site';
+const sorted = [...DISTRICTS].sort((a, b) => a.name.localeCompare(b.name));
+---
+<form class="area-check" data-area-check onsubmit="return false">
+  <label class="sr-only" for="area-district">Select your district</label>
+  <select id="area-district">
+    <option value="">Select your district…</option>
+    {sorted.map((d) => <option value={d.slug} data-name={d.name}>{d.name} ({d.ta})</option>)}
+  </select>
+  <button class="btn-cta" type="submit">Check availability</button>
+</form>
+<p class="area-result" aria-live="polite" data-area-result></p>
+<script define:vars={{ wa: waLink('') }} is:inline>
+  document.querySelectorAll('[data-area-check]').forEach(function (form) {
+    var out = form.nextElementSibling;
+    form.addEventListener('submit', function () {
+      var sel = form.querySelector('select'); var opt = sel.selectedOptions[0];
+      if (!sel.value) { out.textContent = 'Please choose your district.'; return; }
+      var name = opt.dataset.name;
+      out.innerHTML = '✅ Yes! We provide land surveys in <strong>' + name + '</strong>. ' +
+        '<a href="/locations/' + sel.value + '/">See ' + name + ' services</a> or ' +
+        '<a target="_blank" rel="noopener" href="' + wa + encodeURIComponent('Hi Cartospatial, I need a land survey in ' + name + ' district.') + '">get a quote on WhatsApp</a>.';
+      if (window.gtag) gtag('event', 'area_check', { district: name });
+    });
+  });
+</script>

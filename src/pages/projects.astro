@@ -1,0 +1,177 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { breadcrumb } from '../data/schema';
+import { readdirSync } from 'node:fs';
+
+// Real field photos from completed jobs (optimised by `npm run images`)
+const photos = readdirSync('public/img').filter((f) => /^(IMG|\d{8})/.test(f)).sort();
+
+const approach = [
+  { icon: 'fa-solid fa-chess-knight', title: 'Powerful strategy', text: 'A strategic geospatial framework for each project, blending modern technology with expert analysis for clear outcomes.' },
+  { icon: 'fa-solid fa-clipboard-check', title: 'Client-first planning', text: 'Timely delivery, transparent communication and quality assurance at every milestone.' },
+  { icon: 'fa-solid fa-diagram-project', title: 'Custom survey workflows', text: 'Every project is planned for accuracy, safety and sustainability, with methods chosen for the site.' },
+];
+
+const projects = [
+  {
+    id: 'cad', icon: 'fa-solid fa-ruler-combined', tag: 'CAD Drafting', img: '/img/cad.webp', detailImg: '/img/IMG-20250314-WA0014.webp',
+    title: 'Technical drawings with precision and clarity', meta: 'CAD · Drafting · 2D / 3D',
+    text: 'Converting survey data and concepts into accurate 2D/3D technical drawings that support engineering and infrastructure design.',
+    intro: 'Our CAD drafting services convert raw survey data, sketches and concepts into accurate, detailed technical drawings. Whether 2D drafting or 3D modelling, we deliver clean, standards-compliant outputs for engineering, architectural and infrastructure workflows.',
+    features: [
+      ['2D drafting & detailing', ['Floor plans, elevations, sections and site layouts.', 'Topographic maps, contour plans and utility layouts.']],
+      ['3D modelling & visualisation', ['3D terrain, structure and infrastructure models.', 'Massing studies and visualisation-ready outputs.']],
+      ['Survey to CAD conversion', ['Clean conversion of Total Station, DGPS and LiDAR data to DWG/DXF.', 'Layered drawings for terrain, boundaries, utilities and built structures.']],
+    ],
+  },
+  {
+    id: 'lidar', icon: 'fa-solid fa-wave-square', tag: 'LiDAR Survey', img: '/img/Lidar_survey.webp', detailImg: '/img/Lidar_survey.webp',
+    title: 'High-density 3D mapping with laser precision', meta: 'LiDAR · 3D · Point clouds',
+    text: 'Multi-platform LiDAR acquisition for terrain, structures and corridors – ideal for large-scale, high-accuracy mapping.',
+    intro: 'Our LiDAR surveys provide highly accurate, high-density 3D data. Using airborne, terrestrial and mobile LiDAR systems we capture millions of laser points to create detailed topographic maps, terrain models and feature-rich 3D representations of natural and built environments.',
+    features: [
+      ['High-density point clouds', ['Up to several million points per second.', 'Ultra-dense 3D data for micro-level terrain features.']],
+      ['Multi-platform deployment', ['Airborne LiDAR (UAV, helicopter or aircraft).', 'Terrestrial LiDAR for buildings, structures and landscapes.', 'Mobile LiDAR for road and railway corridors.']],
+    ],
+  },
+  {
+    id: 'dgps', icon: 'fa-solid fa-location-crosshairs', tag: 'DGPS Survey', img: '/img/dcpsbanner.webp', detailImg: '/img/dcpsbanner.webp',
+    title: 'High-precision geospatial positioning', meta: 'DGPS · GNSS · RTK / PPK',
+    text: 'Centimetre-level GNSS positioning for GCPs, corridors and land parcels – reliable even in demanding terrain.',
+    intro: 'Our DGPS (Differential GPS) surveys are designed for centimetre-level positioning across diverse terrain. Using dual-frequency GNSS receivers we deliver accurate, geo-referenced data for infrastructure planning, land development and asset mapping.',
+    features: [
+      ['High-accuracy positioning', ['Sub-metre to centimetre-level accuracy.', 'RTK and PPK solutions based on site requirements.']],
+      ['Dual-frequency GNSS receivers', ['Supports GPS, GLONASS, Galileo and BeiDou constellations.', 'Better satellite connectivity and signal stability in tough environments.']],
+    ],
+  },
+] as const;
+---
+<BaseLayout
+  title="Projects | Land Survey, DGPS & LiDAR Work in Tamil Nadu – CST Survey"
+  description="See CST Survey projects across Tamil Nadu – DGPS and Total Station land surveys, LiDAR mapping, drone surveys and CAD drafting, with photos from the field."
+  schema={[breadcrumb([{ name: 'Home', path: '/' }, { name: 'Projects', path: '/projects/' }])]}
+>
+  <section class="hero-band">
+    <h1>Every project reflects precision, innovation &amp; reliability</h1>
+    <p>Survey, mapping and drafting work delivered for landowners, developers and infrastructure teams across Tamil Nadu.</p>
+    <div class="hero-actions">
+      <a class="btn" href="#portfolio">View projects</a>
+      <a class="btn btn--ghost" href="#gallery-title">Field photos</a>
+    </div>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> › <span aria-current="page">Projects</span></nav>
+  </section>
+
+  <main>
+    <section class="section section--dark section--tight" aria-label="Project statistics">
+      <div class="container">
+        <div class="stats-strip">
+          <div><strong>5<em>+</em></strong><span>Years experience</span></div>
+          <div><strong>50<em>+</em></strong><span>Projects delivered</span></div>
+          <div><strong>38</strong><span>Districts covered</span></div>
+          <div><strong>100<em>%</em></strong><span>Data integrity checks</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="approach-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow-label">How we deliver</p>
+            <h2 class="section-heading" id="approach-title">Strategy, planning &amp; execution in sync</h2>
+            <p class="section-lead">Every project begins with a clear vision and a data-driven approach. We work closely with clients to deliver accurate, reliable and sustainable results – from design to final handover.</p>
+          </div>
+        </div>
+        <div class="feature-grid">
+          {approach.map((a) => (
+            <div class="feature">
+              <span class="ic"><i class={a.icon} aria-hidden="true"></i></span>
+              <h3>{a.title}</h3>
+              <p>{a.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="portfolio" aria-labelledby="portfolio-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow-label">Project portfolio</p>
+            <h2 class="section-heading" id="portfolio-title">Featured CAD, LiDAR &amp; DGPS projects</h2>
+          </div>
+        </div>
+        <div class="project-grid">
+          {projects.map((p) => (
+            <article class="project-card">
+              <img src={p.img} alt={`${p.tag} project by CST Survey`} width="600" height="375" loading="lazy" decoding="async" />
+              <div class="body">
+                <span class="tag"><i class={p.icon} aria-hidden="true"></i> {p.tag}</span>
+                <h3>{p.title}</h3>
+                <p>{p.text}</p>
+              </div>
+              <div class="foot">
+                <span>{p.meta}</span>
+                <button class="btn btn--outline btn--sm" type="button" data-dialog={`dlg-${p.id}`}>View details</button>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {projects.map((p) => (
+      <dialog class="project-dialog" id={`dlg-${p.id}`} aria-labelledby={`dlg-${p.id}-title`}>
+        <header>
+          <div>
+            <h2 id={`dlg-${p.id}-title`}>{p.tag}</h2>
+            <p>{p.title}</p>
+          </div>
+          <form method="dialog"><button class="request-modal__close" style="position:static" aria-label="Close">&times;</button></form>
+        </header>
+        <img src={p.detailImg} alt={`${p.tag} – detail view`} loading="lazy" decoding="async" width="760" height="320" />
+        <div class="inner prose">
+          <p>{p.intro}</p>
+          {p.features.map(([h, items]) => (
+            <>
+              <h3>{h}</h3>
+              <ul class="check-list">{items.map((i) => <li>{i}</li>)}</ul>
+            </>
+          ))}
+        </div>
+      </dialog>
+    ))}
+
+    <section class="section" aria-labelledby="gallery-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow-label">From the field</p>
+            <h2 class="section-heading" id="gallery-title">Our survey teams at work across Tamil Nadu</h2>
+            <p class="section-lead">Real photos from recent DGPS, Total Station and drone survey sites.</p>
+          </div>
+        </div>
+        <div class="gallery">
+          {photos.map((p, i) => (
+            <figure><img src={`/img/${p}`} alt={`CST Survey land survey field work in Tamil Nadu – photo ${i + 1}`} loading="lazy" decoding="async" width="400" height="300" /></figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+  <CtaBand />
+
+  <script is:inline>
+    document.querySelectorAll('[data-dialog]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var d = document.getElementById(btn.dataset.dialog);
+        if (d && d.showModal) d.showModal();
+      });
+    });
+    document.querySelectorAll('dialog.project-dialog').forEach(function (d) {
+      d.addEventListener('click', function (e) { if (e.target === d) d.close(); });
+    });
+  </script>
+</BaseLayout>
